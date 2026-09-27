@@ -31,7 +31,9 @@ Nincs szükség build lépésre: a `public/` mappa bármilyen statikus tárhelye
   mindegyiken hang be/ki gomb. Az előnézetek az oldal betöltése után azonnal elindulnak. Ha előbb engedélyt szeretnél kérni
   a látogatótól (a Facebook és a TikTok sütiket használhat): `SHOP.askVideoConsent = true` a `script.js` elején.
   **Csak feltöltött weboldalon (https://…) működnek**, helyi fájlként megnyitva az oldal ezt ki is írja.
-  Telefonon a Facebook nem mindig engedi az automatikus lejátszást, ilyenkor a videó képe látszik, és koppintásra indul
+  Asztali gépen minden látható videó megy; telefonon egyszerre csak a középen lévő TikTok-videó, és csak akkor vált,
+  amikor a lapozás megállt. A Facebook telefonon nem engedi a kódból indított lejátszást, ezért ott a Facebook-videók
+  a saját előnézeti képüket mutatják, és koppintásra, hanggal indulnak
 - **04 Történet**, **05 Rólunk írták**, **06 Rendelés** (telefon, Wolt, foodora), **07 Hol vagyunk** (élő nyitva/zárva jelzés,
   nyitvatartás, térkép kattintásra)
 - Telefonon alul mindig ott a **Hívás**, **Útvonal** és **Rendelés** gomb

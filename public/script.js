@@ -30,6 +30,7 @@ const $$ = (s, root = document) => [...root.querySelectorAll(s)];
 const clamp = (v, a = 0, b = 1) => Math.min(b, Math.max(a, v));
 const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 const finePointer = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+const touchDevice = !finePointer;
 
 document.documentElement.classList.remove("no-js");
 
@@ -322,19 +323,41 @@ function initVideos() {
   }
 }
 
-// Csak a látható videók mennek, a többi áll (kíméli a telefont)
+// Melyik videó menjen? A döntés csak akkor születik meg, amikor a lapozás/görgetés megállt, így lapozás közben
+// nem kapcsolgatjuk ki-be őket (ettől feketedtek el). Telefonon egyszerre csak a középen lévő megy,
+// asztali gépen minden látható; a többi áll.
+let decidePlayback = () => {};
 function watchVisibility(clips) {
-  const io = new IntersectionObserver((entries) => entries.forEach((en) => {
-    const clip = en.target;
-    clip.visible = en.isIntersecting;
-    if (!clip.player) return;
-    en.isIntersecting ? clip.player.play() : clip.player.pause();
-  }), { threshold: .4 });
-  clips.forEach((c) => io.observe(c));
-  document.addEventListener("visibilitychange", () => clips.forEach((c) => {
-    if (!c.player) return;
-    document.hidden ? c.player.pause() : c.visible && c.player.play();
-  }));
+  const reel = $("[data-reel]");
+  let timer;
+  decidePlayback = () => {
+    const vh = window.innerHeight;
+    const rr = reel.getBoundingClientRect();
+    const rowVisible = !document.hidden && rr.bottom > vh * .2 && rr.top < vh * .8;
+    const center = rr.left + rr.width / 2;
+    let best = null, bestDist = Infinity;
+    clips.forEach((c) => {
+      const r = $("[data-frame]", c).getBoundingClientRect();
+      const shown = Math.min(r.right, rr.right) - Math.max(r.left, rr.left);
+      c.inView = rowVisible && shown > r.width * .6;
+      const dist = Math.abs(r.left + r.width / 2 - center);
+      if (c.inView && c.player && dist < bestDist) { best = c; bestDist = dist; }
+    });
+    clips.forEach((c) => setPlaying(c, touchDevice ? c === best : c.inView));
+  };
+  const later = () => { clearTimeout(timer); timer = setTimeout(decidePlayback, 200); };
+  reel.addEventListener("scroll", later, { passive: true });
+  window.addEventListener("scroll", later, { passive: true });
+  window.addEventListener("resize", later);
+  document.addEventListener("visibilitychange", decidePlayback);
+  decidePlayback();
+}
+
+// Csak akkor küldünk parancsot, ha tényleg változik az állapot
+function setPlaying(clip, on) {
+  if (!clip.player || clip.playing === on) return;
+  clip.playing = on;
+  on ? clip.player.play() : clip.player.pause();
 }
 
 // Hang be/ki gomb; egyszerre csak egy videó szólhat
@@ -355,7 +378,7 @@ function addSoundButton(clip) {
       b.setAttribute("aria-pressed", String(on));
       b.setAttribute("aria-label", on ? "Hang kikapcsolása" : "Hang bekapcsolása");
     });
-    if (turnOn) clip.player.play();
+    if (turnOn) { clip.playing = false; setPlaying(clip, true); }
   });
   $("[data-frame]", clip).appendChild(btn);
 }
@@ -375,7 +398,7 @@ function mountTikTok(clip) {
       clip.player = { play: () => send("play"), pause: () => send("pause"), mute: () => send("mute"), unmute: () => send("unMute") };
       clip.classList.add("is-ready");
       addSoundButton(clip);
-      clip.visible === false ? clip.player.pause() : clip.player.play();
+      decidePlayback();
     }
   });
 }
@@ -388,7 +411,9 @@ function mountFacebook(clip, i) {
   v.dataset.href = clip.dataset.href;
   v.dataset.width = String(Math.round(frame.clientWidth) || 280);
   v.dataset.showText = "false";
-  v.dataset.autoplay = "true";
+  // Telefonon a Facebook nem engedi a kódból indított lejátszást (fekete kép lenne), ezért ott a saját
+  // előnézeti képét mutatja, és koppintásra, hanggal indul
+  v.dataset.autoplay = touchDevice ? "false" : "true";
   v.dataset.allowfullscreen = "true";
   frame.appendChild(v);
 }
@@ -404,13 +429,14 @@ function loadFacebookSDK() {
       const el = document.getElementById(msg.id);
       const clip = el && el.closest("[data-clip]");
       if (!clip) return;
+      clip.classList.add("is-ready");
+      if (touchDevice) return;
       const p = msg.instance;
       p.mute();
-      p.subscribe("finishedPlaying", () => { p.seek(0); p.play(); });
+      p.subscribe("finishedPlaying", () => { if (clip.playing) { p.seek(0); p.play(); } });
       clip.player = { play: () => p.play(), pause: () => p.pause(), mute: () => p.mute(), unmute: () => p.unmute() };
-      clip.classList.add("is-ready");
       addSoundButton(clip);
-      clip.visible === false ? p.pause() : p.play();
+      decidePlayback();
     });
   };
   const js = document.createElement("script");
