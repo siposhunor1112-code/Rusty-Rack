@@ -5,8 +5,9 @@
 /* ---------- Adatok: ezeket kell módosítani, ha valami változik ---------- */
 const SHOP = {
   name: "Rusty Rack Burger & BBQ",
-  // Videók: első alkalommal egy kattintással kell engedélyezni a Facebook és a TikTok betöltését (sütik miatt)
-  askVideoConsent: true,
+  // Videók: true = első alkalommal egy kattintással kell engedélyezni a Facebook és a TikTok betöltését (sütik miatt);
+  // false = az előnézetek kérdés nélkül, azonnal betöltődnek
+  askVideoConsent: false,
   // Ha phone null, a weboldal nem mutatja a hívás gombokat.
   phone: "+36 30 726 6794",
   address: "1039 Budapest, Heltai Jenő tér 2.",
@@ -271,8 +272,8 @@ function initAnatomy() {
 }
 
 /* ---------- Videók: élő előnézet (hang nélkül, ismétlődve) ---------- */
-// A Facebook és a TikTok sütiket használhat, ezért első alkalommal egy kattintással engedélyezni kell a betöltést
-// (a döntést a böngésző megjegyzi). Ha ez nem kell: SHOP.askVideoConsent = false.
+// Alapból az oldal betöltése után azonnal elindulnak. Ha SHOP.askVideoConsent = true, első alkalommal
+// egy kattintással kell engedélyezni a betöltést (a Facebook és a TikTok sütiket használhat; a döntést a böngésző megjegyzi).
 const VIDEO_CONSENT_KEY = "rr-videos-ok";
 const TIKTOK_PARAMS = "autoplay=1&muted=1&loop=1&controls=0&progress_bar=0&play_button=0&volume_control=0&fullscreen_button=0&timestamp=0&music_info=0&description=0&rel=0&native_context_menu=0&closed_caption=0";
 
@@ -311,9 +312,9 @@ function initVideos() {
   let ok = !SHOP.askVideoConsent;
   try { ok = ok || localStorage.getItem(VIDEO_CONSENT_KEY) === "1"; } catch (e) { /* privát mód */ }
   if (ok) {
-    // Akkor töltjük be, amikor a videósor közel ér a képernyőhöz
-    const io = new IntersectionObserver(([en]) => { if (en.isIntersecting) { io.disconnect(); start(); } }, { rootMargin: "600px 0px" });
-    io.observe(section);
+    // Rögtön az oldal betöltése után indítjuk, hogy mire odagörgetnek, már menjenek az előnézetek
+    if (document.readyState === "complete") start();
+    else window.addEventListener("load", start, { once: true });
   } else {
     gate.hidden = false;
     $("[data-video-consent]", gate).addEventListener("click", start);
