@@ -1,0 +1,3 @@
+# Rusty Rack Burger & BBQ – a keresők számára az egész oldal látogatható
+User-agent: *
+Allow: /

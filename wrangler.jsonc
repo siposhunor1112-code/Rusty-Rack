@@ -1,0 +1,10 @@
+// Cloudflare Workers beállítás: a public/ mappa tartalmát teszi ki statikus weboldalként.
+// A "name" egyezzen meg a Cloudflare-ben lévő projekt nevével.
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "rusty-rack",
+  "compatibility_date": "2025-09-01",
+  "assets": {
+    "directory": "./public"
+  }
+}
