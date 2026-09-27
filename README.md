@@ -23,9 +23,9 @@ Nincs szükség build lépésre: a `public/` mappa bármilyen statikus tárhelye
 ## Szekciók és effektek
 
 - **Nyitókép**: „Smashed. Smoked. Békásmegyer.” becsapódó felirat, rázkódás és szikrák, lebegő burger, élő nyitva/zárva jelzés
+  és a háttérben elhalványított, hangtalan, ismétlődő videó (lásd lent: „Háttérvideó”)
 - **Parázs**: az egész oldalon felszálló parázs, kattintásra szikrák, parázsfény a kurzor körül (asztali gépen)
-- **01 Anatómia**: görgetésre rétegeire szétnyíló burger, rétegenként bemutatva, a végén újra „összesmash-elve”.
-  A **Hallgasd meg a platnit** gomb sercegő hangot kelt a böngészőben (WebAudio, nincs hangfájl)
+- **01 Anatómia**: görgetésre rétegeire szétnyíló burger, rétegenként bemutatva, a végén újra „összesmash-elve”
 - **02 Étlap**: szűrhető kártyák 3D billenéssel
 - **03 Videók**: a Rusty Rack Facebook-videói és két TikTok-videó. Csak kattintásra töltődnek be
   (így a látogató addig nem kap Facebook- és TikTok-sütiket)
@@ -52,6 +52,22 @@ A Facebook-oldal tartalmát nem lehetett közvetlenül letölteni, ezért nyilv�
 - Árak: Rusty Rack burger 3 290 Ft, Húsimádó 4 690 Ft, pulled pork szendvics 3 290 Ft, hasábburgonya 780 Ft.
   A többi tétel ára és a három további burger neve nem volt elérhető, ezeknél az oldal a helyszíni étlapra utal
 - Videók: három videó a Rusty Rack Facebook-oldaláról, valamint @erdodi_peter és @okosgrill TikTok-videója a helyről
+
+## Háttérvideó a nyitóképben
+
+A nyitókép hátterében halványan egy hangtalan, ismétlődő videó megy (pl. ahogy sülnek a húsok a platnin).
+A fájlok helye: `public/assets/video/hero.webm`, `hero.mp4` és `hero.jpg` (állókép, amíg a videó betölt).
+Amíg ezek nincsenek feltöltve, a nyitókép videó nélkül jelenik meg.
+
+Elkészítés a saját (pl. Facebookról letöltött) videóidból – a legjobb részleteket kivágja, összefűzi,
+leveszi a hangot és kicsire tömöríti:
+
+```sh
+# videó, kezdés (mp), hossz (mp) – ahány részlet kell
+tools/hero-video.sh sutes.mp4 3 4 grill.mp4 12 5
+```
+
+Kell hozzá az `ffmpeg`. A részletek legyenek egyformán fekvők vagy egyformán állók.
 
 ## Saját fotók, videók
 

@@ -230,6 +230,26 @@ function initHero() {
   }
 }
 
+/* ---------- Háttérvideó a nyitóképben ---------- */
+function initHeroVideo() {
+  const box = $(".hero__video");
+  const video = $("[data-hero-video]");
+  if (!video) return;
+  // Csak akkor adjuk fel, ha az utolsó forrás (a tartalék) is hibás
+  const source = $$("source", video).pop();
+  // Ha nincs feltöltve videó, eltüntetjük a helyét
+  const fail = () => box.remove();
+  source.addEventListener("error", fail);
+  if (video.networkState === HTMLMediaElement.NETWORK_NO_SOURCE) return fail();
+  video.addEventListener("error", fail);
+  if (reduced) { video.removeAttribute("autoplay"); video.pause(); video.addEventListener("loadeddata", () => box.classList.add("is-playing")); return; }
+  video.addEventListener("playing", () => box.classList.add("is-playing"));
+  // Ne fusson feleslegesen, ha már lejjebb görgettek
+  if ("IntersectionObserver" in window) {
+    new IntersectionObserver(([en]) => { if (en.isIntersecting) video.play().catch(() => {}); else video.pause(); }).observe(box);
+  }
+}
+
 /* ---------- Kurzor körüli parázsfény + kattintásra szikra ---------- */
 function initCursor() {
   if (!finePointer || reduced) return;
@@ -310,66 +330,6 @@ function initAnatomy() {
   window.addEventListener("scroll", () => { if (!ticking) { ticking = true; requestAnimationFrame(update); } }, { passive: true });
   window.addEventListener("resize", update);
   update();
-}
-
-/* ---------- Sercegés: a platni hangja, WebAudio-val előállítva ---------- */
-function initSizzle() {
-  const btn = $("[data-sizzle]");
-  const label = $("[data-sizzle-label]");
-  const AC = window.AudioContext || window.webkitAudioContext;
-  if (!btn || !AC) { btn && btn.remove(); return; }
-  let ac, nodes = null, timer;
-
-  function startSound() {
-    ac = ac || new AC();
-    ac.resume();
-    const len = ac.sampleRate * 2;
-    const buf = ac.createBuffer(1, len, ac.sampleRate);
-    const data = buf.getChannelData(0);
-    // Fehér zaj + véletlen pattogások (zsír a platnin)
-    for (let i = 0; i < len; i++) {
-      let v = (Math.random() * 2 - 1) * .5;
-      if (Math.random() < .0009) v += (Math.random() < .5 ? -1 : 1) * (Math.random() * 3 + 1.5);
-      data[i] = v;
-    }
-    const src = ac.createBufferSource();
-    src.buffer = buf; src.loop = true;
-    const hp = ac.createBiquadFilter(); hp.type = "highpass"; hp.frequency.value = 1800;
-    const peak = ac.createBiquadFilter(); peak.type = "peaking"; peak.frequency.value = 5200; peak.Q.value = .8; peak.gain.value = 8;
-    const lp = ac.createBiquadFilter(); lp.type = "lowpass"; lp.frequency.value = 11000;
-    const gain = ac.createGain(); gain.gain.value = 0;
-    // Lassú hullámzás a hangerőben, mintha a zsír hol jobban, hol kevésbé sercegne
-    const lfo = ac.createOscillator(); lfo.frequency.value = .7;
-    const lfoGain = ac.createGain(); lfoGain.gain.value = .06;
-    lfo.connect(lfoGain).connect(gain.gain);
-    src.connect(hp).connect(peak).connect(lp).connect(gain).connect(ac.destination);
-    const now = ac.currentTime;
-    gain.gain.setValueAtTime(0, now);
-    gain.gain.linearRampToValueAtTime(.22, now + .25);
-    src.start(); lfo.start();
-    nodes = { src, lfo, gain };
-    btn.setAttribute("aria-pressed", "true");
-    label.textContent = "Sssssss… (kattints a leállításhoz)";
-    const b = btn.getBoundingClientRect();
-    FX.burst(b.left + 24, b.top + b.height / 2, 30, .9);
-    timer = setTimeout(stopSound, 9000);
-  }
-
-  function stopSound() {
-    clearTimeout(timer);
-    if (!nodes) return;
-    const { src, lfo, gain } = nodes;
-    const now = ac.currentTime;
-    gain.gain.cancelScheduledValues(now);
-    gain.gain.setValueAtTime(gain.gain.value, now);
-    gain.gain.linearRampToValueAtTime(0, now + .3);
-    src.stop(now + .35); lfo.stop(now + .35);
-    nodes = null;
-    btn.setAttribute("aria-pressed", "false");
-    label.textContent = "Hallgasd meg a platnit";
-  }
-
-  btn.addEventListener("click", () => (nodes ? stopSound() : startSound()));
 }
 
 /* ---------- Étlap: szűrés és 3D billenés ---------- */
@@ -485,7 +445,7 @@ initHero();
 initCursor();
 initMagnets();
 initAnatomy();
-initSizzle();
+initHeroVideo();
 initMenu();
 initVideos();
 initQuote();

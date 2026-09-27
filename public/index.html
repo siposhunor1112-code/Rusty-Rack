@@ -74,6 +74,13 @@
 
     <!-- ============ HERO ============ -->
     <section class="hero" id="top">
+      <!-- Háttérvideó: public/assets/video/hero.webm + hero.mp4 (+ hero.jpg állókép), elkészítése: tools/hero-video.sh. Ha nincs fájl, egyszerűen nem jelenik meg. -->
+      <div class="hero__video" aria-hidden="true">
+        <video data-hero-video muted loop playsinline autoplay preload="auto" poster="assets/video/hero.jpg" disablepictureinpicture>
+          <source src="assets/video/hero.webm" type="video/webm">
+          <source src="assets/video/hero.mp4" type="video/mp4">
+        </video>
+      </div>
       <div class="hero__glow" aria-hidden="true"></div>
       <p class="hero__kicker"><span>Burger &amp; BBQ</span><span>Békásmegyer · Budapest III.</span></p>
       <h1 class="hero__title" aria-label="Smashed. Smoked. Békásmegyer.">
@@ -128,10 +135,6 @@
           <li data-step="4"><b>05</b><span><strong>Savanyú uborka</strong>Egy kis sav, hogy a következő falat is jólessen.</span></li>
           <li data-step="5"><b>06</b><span><strong>Alsó buci</strong>Ez tart össze mindent. Ameddig bírja.</span></li>
         </ol>
-        <button class="sizzle" type="button" data-sizzle aria-pressed="false">
-          <span class="sizzle__wave" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span>
-          <span data-sizzle-label>Hallgasd meg a platnit</span>
-        </button>
       </div>
     </section>
 
