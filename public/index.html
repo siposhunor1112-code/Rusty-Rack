@@ -76,9 +76,9 @@
     <section class="hero" id="top">
       <!-- Háttérvideó: public/assets/video/hero.webm + hero.mp4 (+ hero.jpg állókép), elkészítése: tools/hero-video.sh. Ha nincs fájl, egyszerűen nem jelenik meg. -->
       <div class="hero__video" aria-hidden="true">
-        <video data-hero-video muted loop playsinline autoplay preload="auto" poster="assets/video/hero.jpg" disablepictureinpicture>
-          <source src="assets/video/hero.webm" type="video/webm">
-          <source src="assets/video/hero.mp4" type="video/mp4">
+        <video data-hero-video muted loop playsinline preload="none" data-poster="assets/video/hero.jpg" disablepictureinpicture>
+          <source data-src="assets/video/hero.webm" type="video/webm">
+          <source data-src="assets/video/hero.mp4" type="video/mp4">
         </video>
       </div>
       <div class="hero__glow" aria-hidden="true"></div>

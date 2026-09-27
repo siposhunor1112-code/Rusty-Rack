@@ -31,6 +31,10 @@ Nincs szükség build lépésre: a `public/` mappa bármilyen statikus tárhelye
   (így a látogató addig nem kap Facebook- és TikTok-sütiket)
 - **04 Sztori**, **05 Rólunk írták**, **06 Rendelés** (telefon, Wolt, foodora), **07 Hol vagyunk** (nyitvatartás, térkép kattintásra)
 - Telefonon alul mindig ott a **Hívás**, **Útvonal** és **Rendelés** gomb
+- **Telefonra optimalizálva** (320 px-től, álló és fekvő helyzetben is): a címek a kijelző magasságához is igazodnak,
+  fekvő telefonon kétoszlopos elrendezés, notch-os telefonokon a szélek szabadon maradnak, legalább 40 px-es érintési
+  felületek. Érintőképernyőn nincs egérkövető effekt és mozgó szemcsés réteg, a parázs kisebb felbontáson, előre
+  megrajzolt pöttyökkel megy, az adatforgalom-kímélő módot bekapcsolók pedig nem töltik le a háttérvideót
 - Aki a rendszerében kikapcsolta az animációkat (`prefers-reduced-motion`), annak minden nyugodt marad
 
 ## Tartalom szerkesztése

@@ -58,24 +58,29 @@ function openStatus() {
   const today = SHOP.hours[day];
   if (today && minutes >= toMinutes(today[0]) && minutes < toMinutes(today[1])) {
     const left = toMinutes(today[1]) - minutes;
-    return { open: true, text: left <= 45 ? `Nyitva még ${left} percig` : `Most nyitva · ${today[1]}-ig` };
+    return left <= 45
+      ? { open: true, text: `Nyitva még ${left} percig`, short: `Még ${left} percig` }
+      : { open: true, text: `Most nyitva · ${today[1]}-ig`, short: `Nyitva · ${today[1]}-ig` };
   }
-  if (today && minutes < toMinutes(today[0])) return { open: false, text: `Zárva · ma ${today[0]}-kor nyitunk` };
+  if (today && minutes < toMinutes(today[0])) return { open: false, text: `Zárva · ma ${today[0]}-kor nyitunk`, short: `Ma ${today[0]}-kor nyit` };
   for (let i = 1; i <= 7; i++) {
     const d = (day + i) % 7;
-    if (SHOP.hours[d]) return { open: false, text: `Zárva · ${i === 1 ? "holnap" : DAY_NAMES[d].toLowerCase()} ${SHOP.hours[d][0]}-kor nyitunk` };
+    if (SHOP.hours[d]) return { open: false, text: `Zárva · ${i === 1 ? "holnap" : DAY_NAMES[d].toLowerCase()} ${SHOP.hours[d][0]}-kor nyitunk`, short: "Zárva" };
   }
-  return { open: false, text: "Átmenetileg zárva" };
+  return { open: false, text: "Átmenetileg zárva", short: "Zárva" };
 }
 
+// Keskeny kijelzőn a fejlécbe rövidebb szöveg kerül
+const narrow = window.matchMedia("(max-width: 420px)");
 function renderStatus() {
   const s = openStatus();
   $$("[data-status]").forEach((el) => {
     el.classList.toggle("is-open", s.open);
     el.classList.toggle("is-closed", !s.open);
-    $("[data-status-text]", el).textContent = s.text;
+    $("[data-status-text]", el).textContent = narrow.matches && el.closest(".nav") ? s.short : s.text;
   });
 }
+narrow.addEventListener?.("change", renderStatus);
 
 function renderHours() {
   const today = budapestNow().day;
@@ -121,8 +126,21 @@ const FX = (() => {
   const embers = [];
   const sparks = [];
 
+  // Előre megrajzolt izzó pötty: sokkal gyorsabb, mint minden képkockán shadowBlur-t számolni
+  const sprite = document.createElement("canvas");
+  sprite.width = sprite.height = 32;
+  const sctx = sprite.getContext("2d");
+  const grad = sctx.createRadialGradient(16, 16, 0, 16, 16, 16);
+  grad.addColorStop(0, "rgba(255, 220, 150, 1)");
+  grad.addColorStop(.18, "rgba(255, 150, 50, .9)");
+  grad.addColorStop(.45, "rgba(255, 106, 31, .28)");
+  grad.addColorStop(1, "rgba(255, 106, 31, 0)");
+  sctx.fillStyle = grad;
+  sctx.fillRect(0, 0, 32, 32);
+
   function resize() {
-    dpr = Math.min(window.devicePixelRatio || 1, 2);
+    // Telefonon kisebb felbontás is bőven elég a parázshoz
+    dpr = Math.min(window.devicePixelRatio || 1, finePointer ? 2 : 1.5);
     w = window.innerWidth; h = window.innerHeight;
     canvas.width = w * dpr; canvas.height = h * dpr;
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
@@ -165,14 +183,12 @@ const FX = (() => {
       e.y += e.vy;
       const flicker = .55 + Math.sin(t * .006 + e.phase * 3) * .35;
       const fade = clamp(e.y / h) * e.life * flicker;
-      ctx.beginPath();
-      ctx.fillStyle = `rgba(255, ${120 + Math.round(e.r * 30)}, 40, ${fade})`;
-      ctx.shadowBlur = 12; ctx.shadowColor = "rgba(255, 106, 31, .9)";
-      ctx.arc(e.x, e.y, e.r, 0, Math.PI * 2);
-      ctx.fill();
+      const size = e.r * 7;
+      ctx.globalAlpha = clamp(fade);
+      ctx.drawImage(sprite, e.x - size / 2, e.y - size / 2, size, size);
       if (e.y < -10) Object.assign(e, ember(false));
     }
-    ctx.shadowBlur = 0;
+    ctx.globalAlpha = 1;
 
     for (let i = sparks.length - 1; i >= 0; i--) {
       const s = sparks[i];
@@ -231,23 +247,26 @@ function initHero() {
 }
 
 /* ---------- Háttérvideó a nyitóképben ---------- */
+// A forrásokat csak itt kapja meg a videó, így adatforgalom-kímélő módban semmit sem tölt le.
 function initHeroVideo() {
   const box = $(".hero__video");
   const video = $("[data-hero-video]");
   if (!video) return;
+  if (navigator.connection && navigator.connection.saveData) { box.remove(); return; }
+  const sources = $$("source", video);
   // Csak akkor adjuk fel, ha az utolsó forrás (a tartalék) is hibás
-  const source = $$("source", video).pop();
-  // Ha nincs feltöltve videó, eltüntetjük a helyét
-  const fail = () => box.remove();
-  source.addEventListener("error", fail);
-  if (video.networkState === HTMLMediaElement.NETWORK_NO_SOURCE) return fail();
-  video.addEventListener("error", fail);
-  if (reduced) { video.removeAttribute("autoplay"); video.pause(); video.addEventListener("loadeddata", () => box.classList.add("is-playing")); return; }
+  sources[sources.length - 1].addEventListener("error", () => box.remove());
+  sources.forEach((src) => (src.src = src.dataset.src));
+  video.poster = video.dataset.poster;
+  video.preload = "auto";
+  video.load();
+  if (reduced) { video.addEventListener("loadeddata", () => box.classList.add("is-playing")); return; }
   video.addEventListener("playing", () => box.classList.add("is-playing"));
+  const play = () => video.play().catch(() => {});
   // Ne fusson feleslegesen, ha már lejjebb görgettek
   if ("IntersectionObserver" in window) {
-    new IntersectionObserver(([en]) => { if (en.isIntersecting) video.play().catch(() => {}); else video.pause(); }).observe(box);
-  }
+    new IntersectionObserver(([en]) => (en.isIntersecting ? play() : video.pause())).observe(box);
+  } else play();
 }
 
 /* ---------- Kurzor körüli parázsfény + kattintásra szikra ---------- */
