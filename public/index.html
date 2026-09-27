@@ -49,7 +49,6 @@
   <!-- Füst és parázs (csak dísz) -->
   <canvas class="fx" id="fx" aria-hidden="true"></canvas>
   <div class="grain" aria-hidden="true"></div>
-  <div class="cursor" aria-hidden="true"></div>
 
   <header class="nav">
     <a class="nav__logo" href="#top" aria-label="Rusty Rack – vissza az oldal tetejére">
@@ -57,10 +56,10 @@
       <span class="nav__name">Rusty Rack</span>
     </a>
     <nav id="menu" class="nav__links" aria-label="Fő navigáció">
-      <a href="#anatomia">Anatómia</a>
+      <a href="#burger">A burger</a>
       <a href="#etlap">Étlap</a>
       <a href="#videok">Videók</a>
-      <a href="#sztori">Sztori</a>
+      <a href="#tortenet">Történet</a>
       <a href="#hol">Hol vagyunk</a>
     </nav>
     <span class="status" data-status><span class="status__dot"></span><span data-status-text>Minden nap 10:30 – 21:00</span></span>
@@ -72,7 +71,7 @@
 
   <main id="main">
 
-    <!-- ============ HERO ============ -->
+    <!-- ============ NYITÓKÉP ============ -->
     <section class="hero" id="top">
       <!-- Háttérvideó: public/assets/video/hero.webm + hero.mp4 (+ hero.jpg állókép), elkészítése: tools/hero-video.sh. Ha nincs fájl, egyszerűen nem jelenik meg. -->
       <div class="hero__video" aria-hidden="true">
@@ -82,45 +81,38 @@
         </video>
       </div>
       <div class="hero__glow" aria-hidden="true"></div>
-      <p class="hero__kicker"><span>Burger &amp; BBQ</span><span>Békásmegyer · Budapest III.</span></p>
-      <h1 class="hero__title" aria-label="Smashed. Smoked. Békásmegyer.">
-        <span class="slam" style="--d:0"><span>Smashed.</span></span>
-        <span class="slam slam--outline" style="--d:1"><span>Smoked.</span></span>
-        <span class="slam slam--rust" style="--d:2"><span>Békás&shy;megyer.</span></span>
-      </h1>
 
-      <div class="hero__burger" aria-hidden="true">
-        <svg viewBox="0 0 400 300" class="burger burger--hero"><use href="#burger-art"/></svg>
-        <span class="hero__tag hero__tag--a">Oklahoma-stílus</span>
-        <span class="hero__tag hero__tag--b">Lassan füstölve</span>
-      </div>
-
-      <div class="hero__foot">
-        <p class="hero__lead">Rozsdás rácson, forró platnin, papírvékony hagymával a húsba préselve. Kézzel smash-elt burgerek és órákig füstölt BBQ húsok a békásmegyeri piac mellett.</p>
-        <div class="hero__cta">
-          <a class="btn btn--ember magnet" href="#rendeles">Rendelj most</a>
-          <a class="btn btn--ghost magnet" href="tel:+36307266794" data-phone-link>Hívj: <span data-phone-text>+36 30 726 6794</span></a>
+      <div class="hero__text">
+        <p class="eyebrow rise" style="--d:0">Burger &amp; BBQ · Békásmegyer</p>
+        <h1 class="hero__title">
+          <span class="rise" style="--d:1">Smashed.</span>
+          <span class="rise" style="--d:2">Smoked.</span>
+          <span class="rise hero__accent" style="--d:3">Békásmegyer.</span>
+        </h1>
+        <p class="hero__lead rise" style="--d:4">Oklahoma-stílusú smashed burgerek és órákig füstölt BBQ húsok a békásmegyeri piac mellett.</p>
+        <div class="hero__cta rise" style="--d:5">
+          <a class="btn btn--ember" href="#rendeles">Rendelés</a>
+          <a class="btn btn--ghost" href="#etlap">Étlap</a>
         </div>
       </div>
-      <a class="hero__scroll" href="#anatomia" aria-label="Görgess tovább"><span></span></a>
+
+      <div class="hero__burger rise" style="--d:3" aria-hidden="true">
+        <svg viewBox="0 0 400 300" class="burger burger--hero"><use href="#burger-art"/></svg>
+      </div>
+
+      <dl class="facts rise" style="--d:6">
+        <div><dt>Cím</dt><dd>Heltai Jenő tér 2.</dd></div>
+        <div><dt>Nyitvatartás</dt><dd>Minden nap 10:30 – 21:00</dd></div>
+        <div><dt>Telefon</dt><dd><a href="tel:+36307266794" data-phone-link data-phone-text>+36 30 726 6794</a></dd></div>
+      </dl>
     </section>
 
-    <!-- ============ FUTÓSZALAG ============ -->
-    <div class="ticker-wrap" aria-hidden="true">
-    <div class="ticker">
-      <div class="ticker__track">
-        <span>Smashed burger</span><i>✦</i><span>Pulled pork</span><i>✦</i><span>Oldalas</span><i>✦</i><span>Quesadilla</span><i>✦</i><span>Sajtszószos krumpli</span><i>✦</i><span>Heltai Jenő tér 2.</span><i>✦</i>
-        <span>Smashed burger</span><i>✦</i><span>Pulled pork</span><i>✦</i><span>Oldalas</span><i>✦</i><span>Quesadilla</span><i>✦</i><span>Sajtszószos krumpli</span><i>✦</i><span>Heltai Jenő tér 2.</span><i>✦</i>
-      </div>
-    </div>
-    </div>
-
-    <!-- ============ ANATÓMIA (görgetésre szétnyíló burger) ============ -->
-    <section class="anatomy" id="anatomia" aria-labelledby="anatomy-title">
+    <!-- ============ A BURGER (görgetésre szétnyílik) ============ -->
+    <section class="anatomy" id="burger" aria-labelledby="anatomy-title">
       <div class="anatomy__stick">
         <div class="anatomy__head">
-          <p class="eyebrow">01 · Egy smash anatómiája</p>
-          <h2 id="anatomy-title" class="h2">Szedjük <em>szét.</em></h2>
+          <p class="eyebrow">01 · A burger</p>
+          <h2 id="anatomy-title" class="h2">Egy smash rétegei</h2>
         </div>
         <div class="anatomy__stage">
           <svg class="burger burger--explode" viewBox="0 -120 400 540" role="img" aria-label="Egy Rusty Rack burger rétegei: buci, szósz, cheddar, smashed marhahús hagymával, savanyú uborka, alsó buci">
@@ -128,12 +120,12 @@
           </svg>
         </div>
         <ol class="anatomy__list">
-          <li data-step="0"><b>01</b><span><strong>Pirított buci</strong>Vajjal, a platnin megkapva – ropog a széle, puha a belseje.</span></li>
-          <li data-step="1"><b>02</b><span><strong>Házi szósz</strong>Nálunk készül, nem vödörből jön.</span></li>
-          <li data-step="2"><b>03</b><span><strong>Olvadt cheddar</strong>Egyenesen a forró húsra, hogy rácsorogjon.</span></li>
-          <li data-step="3"><b>04</b><span><strong>Smashed marha + hagyma</strong>Oklahoma-stílus: papírvékony hagymát préselünk a húsba a platnin. Karamellizált, ropogós kéreg.</span></li>
-          <li data-step="4"><b>05</b><span><strong>Savanyú uborka</strong>Egy kis sav, hogy a következő falat is jólessen.</span></li>
-          <li data-step="5"><b>06</b><span><strong>Alsó buci</strong>Ez tart össze mindent. Ameddig bírja.</span></li>
+          <li><b>01</b><span><strong>Pirított buci</strong>Vajjal, a platnin pirítva.</span></li>
+          <li><b>02</b><span><strong>Házi szósz</strong>Helyben készül.</span></li>
+          <li><b>03</b><span><strong>Cheddar</strong>Közvetlenül a forró húsra olvasztva.</span></li>
+          <li><b>04</b><span><strong>Smashed marha és hagyma</strong>Oklahoma-stílus: vékonyra szelt hagymát préselünk a húsba a platnin, így karamellizált, ropogós kérget kap.</span></li>
+          <li><b>05</b><span><strong>Savanyú uborka</strong>Friss savasság a gazdag ízek mellé.</span></li>
+          <li><b>06</b><span><strong>Alsó buci</strong>Puha, és megtartja a szaftot.</span></li>
         </ol>
       </div>
     </section>
@@ -141,148 +133,106 @@
     <!-- ============ ÉTLAP ============ -->
     <section class="menu section" id="etlap" aria-labelledby="menu-title">
       <div class="section__head">
-        <p class="eyebrow">02 · Étlap</p>
-        <h2 id="menu-title" class="h2">Egyszerű étlap.<br><em>Nem túlgondolva.</em></h2>
-        <p class="section__lead">Öt smashed burger, füstölt BBQ, quesadilla és köretek. Az aktuális teljes étlap és árak a Wolton és a foodorán láthatók.</p>
+        <p class="eyebrow">02 · Kínálat</p>
+        <h2 id="menu-title" class="h2">Étlap</h2>
+        <p class="section__lead">Öt smashed burger, füstölt BBQ, quesadilla és köretek. A teljes, aktuális kínálat a helyszínen, a Wolton és a foodorán.</p>
       </div>
 
-      <div class="menu__filters" role="tablist" aria-label="Étlap szűrése">
-        <button type="button" role="tab" aria-selected="true" data-filter="all">Mind</button>
-        <button type="button" role="tab" aria-selected="false" data-filter="burger">Burgerek</button>
-        <button type="button" role="tab" aria-selected="false" data-filter="bbq">BBQ</button>
-        <button type="button" role="tab" aria-selected="false" data-filter="side">Quesadilla &amp; köret</button>
-      </div>
+      <div class="menu__layout">
+        <article class="feature reveal">
+          <svg class="feature__art" viewBox="0 0 400 300" aria-hidden="true"><use href="#burger-art"/></svg>
+          <p class="feature__tag">A ház burgere</p>
+          <h3>Rusty Rack</h3>
+          <p>Oklahoma-stílusban smash-elve. Csípős változatban jalapeñóval vagy mustárral is kérhető.</p>
+          <p class="feature__price">3 290 Ft</p>
+        </article>
 
-      <div class="menu__grid" id="menu-grid">
-        <article class="dish dish--hero tilt" data-cat="burger">
-          <span class="dish__badge">A névadó</span>
-          <svg class="dish__art" viewBox="0 0 400 300" aria-hidden="true"><use href="#burger-art"/></svg>
-          <div class="dish__body">
-            <h3>Rusty Rack</h3>
-            <p>A ház burgere, Oklahoma-stílusban smash-elve. Csípős változatban jalapeñóval vagy mustárral is kérheted.</p>
-            <p class="dish__price"><span>3 290</span> Ft</p>
+        <div class="menu__lists">
+          <div class="menu__group reveal">
+            <h3>Burgerek</h3>
+            <ul>
+              <li><span class="item"><strong>Rusty Rack</strong><small>A ház burgere, csípős változatban is</small></span><span class="price">3 290 Ft</span></li>
+              <li><span class="item"><strong>Húsimádó</strong><small>Dupla hússal</small></span><span class="price">4 690 Ft</span></li>
+              <li><span class="item"><strong>További három smashed burger</strong><small>Az aktuális kínálat a helyszínen</small></span><span class="price price--muted">—</span></li>
+            </ul>
           </div>
-        </article>
-        <article class="dish tilt" data-cat="burger">
-          <span class="dish__badge">Dupla hús</span>
-          <div class="dish__num" aria-hidden="true">×2</div>
-          <div class="dish__body">
-            <h3>Húsimádó</h3>
-            <p>Két smashed pogácsa, dupla kéreg, dupla sajt. Azoknak, akiknek egy nem elég.</p>
-            <p class="dish__price"><span>4 690</span> Ft</p>
+          <div class="menu__group reveal">
+            <h3>BBQ</h3>
+            <ul>
+              <li><span class="item"><strong>Pulled pork szendvics</strong><small>Füstölt, tépett sertés, coleslaw, BBQ szósz</small></span><span class="price">3 290 Ft</span></li>
+              <li><span class="item"><strong>Oldalas</strong><small>Lassan füstölt BBQ oldalas</small></span><span class="price price--muted">—</span></li>
+            </ul>
           </div>
-        </article>
-        <article class="dish tilt" data-cat="burger">
-          <div class="dish__num" aria-hidden="true">+3</div>
-          <div class="dish__body">
-            <h3>És még három smash</h3>
-            <p>Összesen öt burger van az étlapon – a többit a helyszínen vagy a rendelési oldalakon találod.</p>
-            <p class="dish__price dish__price--muted">Étlap: Wolt · foodora</p>
+          <div class="menu__group reveal">
+            <h3>Quesadilla és köretek</h3>
+            <ul>
+              <li><span class="item"><strong>Quesadilla</strong><small>Háromféle hússal; teljes kiőrlésű vagy gluténmentes tortillában is, felárral</small></span><span class="price price--muted">—</span></li>
+              <li><span class="item"><strong>Sajtszószos krumpli</strong><small>Háromféle hússal</small></span><span class="price price--muted">—</span></li>
+              <li><span class="item"><strong>Hasábburgonya</strong></span><span class="price">780 Ft</span></li>
+              <li><span class="item"><strong>Coleslaw</strong></span><span class="price price--muted">—</span></li>
+            </ul>
           </div>
-        </article>
-        <article class="dish tilt" data-cat="bbq">
-          <span class="dish__badge">Füstölt</span>
-          <div class="dish__num" aria-hidden="true">PP</div>
-          <div class="dish__body">
-            <h3>Pulled pork szendvics</h3>
-            <p>Órákig füstölt, szálaira tépett sertés, coleslaw és BBQ szósz. Teljes adag.</p>
-            <p class="dish__price"><span>3 290</span> Ft</p>
-          </div>
-        </article>
-        <article class="dish tilt" data-cat="bbq">
-          <div class="dish__num" aria-hidden="true">RIB</div>
-          <div class="dish__body">
-            <h3>Oldalas</h3>
-            <p>Lassan füstölt BBQ oldalas – ahonnan a „rack” a nevünkben jön.</p>
-            <p class="dish__price dish__price--muted">Ár a helyszínen</p>
-          </div>
-        </article>
-        <article class="dish tilt" data-cat="side">
-          <div class="dish__num" aria-hidden="true">Q3</div>
-          <div class="dish__body">
-            <h3>Quesadilla – 3 féle</h3>
-            <p>Bármelyik hússal kérheted teljes kiőrlésű vagy gluténmentes tortillában is, pár száz forint felárral.</p>
-            <p class="dish__price dish__price--muted">Ár a helyszínen</p>
-          </div>
-        </article>
-        <article class="dish tilt" data-cat="side">
-          <span class="dish__badge">Loaded</span>
-          <div class="dish__num" aria-hidden="true">FRY</div>
-          <div class="dish__body">
-            <h3>Sajtszószos krumpli</h3>
-            <p>Hasábburgonya sajtszósszal, háromféle hússal megrakva.</p>
-            <p class="dish__price dish__price--muted">Ár a helyszínen</p>
-          </div>
-        </article>
-        <article class="dish tilt" data-cat="side">
-          <div class="dish__num" aria-hidden="true">+</div>
-          <div class="dish__body">
-            <h3>Hasábburgonya · Coleslaw</h3>
-            <p>A klasszikus kísérők. Egy adag krumpli:</p>
-            <p class="dish__price"><span>780</span> Ft</p>
-          </div>
-        </article>
+          <p class="menu__note">Az árak tájékoztató jellegűek, a helyszíni étlap az irányadó. A „—” jelű tételek ára a helyszínen érhető el.</p>
+        </div>
       </div>
-      <p class="menu__note">Az árak tájékoztató jellegűek, a helyszíni étlap az irányadó.</p>
     </section>
 
     <!-- ============ VIDEÓK ============ -->
     <section class="videos section" id="videok" aria-labelledby="videos-title">
       <div class="section__head">
-        <p class="eyebrow">03 · Videók</p>
-        <h2 id="videos-title" class="h2">Hangosítsd <em>fel.</em></h2>
-        <p class="section__lead">A Rusty Rack Facebook-videói és amit mások forgattak nálunk. A videók csak kattintásra töltődnek be a Facebookról vagy a TikTokról.</p>
+        <p class="eyebrow">03 · Nálunk forgatták</p>
+        <h2 id="videos-title" class="h2">Videók</h2>
+        <p class="section__lead">A videók kattintásra töltődnek be a Facebookról vagy a TikTokról.</p>
       </div>
 
       <div class="reel" data-reel>
         <!-- Új videó: másold le egy <article class="clip"> blokkot (lásd README). -->
         <article class="clip" data-clip data-kind="facebook" data-src="https://www.facebook.com/reel/28492429940373411/">
-          <button class="clip__play" type="button"><span class="clip__art" aria-hidden="true"><b>REEL</b></span><span class="clip__meta"><em>Facebook · Reel</em><strong>Így készül a Rusty Rackben</strong></span><span class="clip__btn" aria-hidden="true"></span></button>
+          <button class="clip__play" type="button"><span class="clip__btn" aria-hidden="true"></span><span class="clip__meta"><em>Facebook</em><strong>A konyhából</strong></span></button>
         </article>
         <article class="clip" data-clip data-kind="facebook" data-src="https://www.facebook.com/rusty.rack.burger/videos/2007108203241838/">
-          <button class="clip__play" type="button"><span class="clip__art" aria-hidden="true"><b>SSSS</b></span><span class="clip__meta"><em>Facebook · Rusty Rack</em><strong>„Talán elmondhatjuk, hogy ez a kedvenc hangunk”</strong></span><span class="clip__btn" aria-hidden="true"></span></button>
+          <button class="clip__play" type="button"><span class="clip__btn" aria-hidden="true"></span><span class="clip__meta"><em>Facebook · Rusty Rack</em><strong>A platnin</strong></span></button>
         </article>
         <article class="clip" data-clip data-kind="facebook" data-src="https://www.facebook.com/rusty.rack.burger/videos/1677935973497564/">
-          <button class="clip__play" type="button"><span class="clip__art" aria-hidden="true"><b>…</b></span><span class="clip__meta"><em>Facebook · Rusty Rack</em><strong>„Úgy gondoljuk, ide nem kellenek szavak”</strong></span><span class="clip__btn" aria-hidden="true"></span></button>
+          <button class="clip__play" type="button"><span class="clip__btn" aria-hidden="true"></span><span class="clip__meta"><em>Facebook · Rusty Rack</em><strong>Smashed burger</strong></span></button>
         </article>
         <article class="clip" data-clip data-kind="facebook" data-src="https://www.facebook.com/rusty.rack.burger/videos/1777364786473700/">
-          <button class="clip__play" type="button"><span class="clip__art" aria-hidden="true"><b>#BBQ</b></span><span class="clip__meta"><em>Facebook · Rusty Rack</em><strong>Hamburger, pulled pork, loaded fries</strong></span><span class="clip__btn" aria-hidden="true"></span></button>
+          <button class="clip__play" type="button"><span class="clip__btn" aria-hidden="true"></span><span class="clip__meta"><em>Facebook · Rusty Rack</em><strong>Burger, pulled pork, loaded fries</strong></span></button>
         </article>
         <article class="clip" data-clip data-kind="tiktok" data-src="https://www.tiktok.com/embed/v2/7583359050906078486">
-          <button class="clip__play" type="button"><span class="clip__art" aria-hidden="true"><b>#1?</b></span><span class="clip__meta"><em>TikTok · @erdodi_peter</em><strong>„Buda legjobb smashed burgere?”</strong></span><span class="clip__btn" aria-hidden="true"></span></button>
+          <button class="clip__play" type="button"><span class="clip__btn" aria-hidden="true"></span><span class="clip__meta"><em>TikTok · @erdodi_peter</em><strong>Smashed burger teszt</strong></span></button>
         </article>
         <article class="clip" data-clip data-kind="tiktok" data-src="https://www.tiktok.com/embed/v2/7542203510138440982">
-          <button class="clip__play" type="button"><span class="clip__art" aria-hidden="true"><b>GRILL</b></span><span class="clip__meta"><em>TikTok · @okosgrill</em><strong>„Meg is érkeztünk Gergőhöz a Rusty Rackbe”</strong></span><span class="clip__btn" aria-hidden="true"></span></button>
+          <button class="clip__play" type="button"><span class="clip__btn" aria-hidden="true"></span><span class="clip__meta"><em>TikTok · @okosgrill</em><strong>Látogatás a Rusty Rackben</strong></span></button>
         </article>
       </div>
       <div class="videos__more">
         <a class="link-arrow" href="https://www.facebook.com/rusty.rack.burger/videos/" target="_blank" rel="noopener">Összes videó a Facebookon</a>
-        <a class="link-arrow" href="https://www.tiktok.com/@rustyrackburger" target="_blank" rel="noopener">@rustyrackburger a TikTokon</a>
+        <a class="link-arrow" href="https://www.tiktok.com/@rustyrackburger" target="_blank" rel="noopener">TikTok</a>
       </div>
     </section>
 
-    <!-- ============ SZTORI ============ -->
-    <section class="story section" id="sztori" aria-labelledby="story-title">
-      <p class="eyebrow">04 · A sztori</p>
-      <blockquote class="story__quote">
+    <!-- ============ TÖRTÉNET ============ -->
+    <section class="story section" id="tortenet" aria-labelledby="story-title">
+      <p class="eyebrow">04 · Történet</p>
+      <blockquote class="story__quote reveal">
         <p id="story-title">„Apa, lehetne olyan munkád, ahol nem kell folyton utazni?”</p>
       </blockquote>
       <div class="story__grid">
-        <p class="story__text reveal">Katona Gergő szoftvermérnök és közgazdász. Évekig vezető pozíciókban dolgozott multinacionális cégeknél, Kínától Angliáig járta a világot. Közben otthon évek óta füstölt és grillezett a család és a barátok örömére.</p>
-        <p class="story__text reveal">Aztán jött a kérdés a fiától. Meg egy emlékezetes burger egy amerikai In-N-Out-ban. 2025 augusztusában felállt az irodai székből, szeptemberben pedig kinyitott a Rusty Rack Békásmegyeren, a piac mellett.</p>
+        <p class="story__text reveal">Katona Gergő szoftvermérnök és közgazdász. Évekig vezető pozíciókban dolgozott multinacionális cégeknél, Kínától Angliáig. Közben otthon évek óta füstölt és grillezett a családjának és a barátainak.</p>
+        <p class="story__text reveal">A fia kérdése és egy amerikai In-N-Out-élmény után döntött: 2025 augusztusában otthagyta a vállalati világot, szeptemberben pedig megnyitotta a Rusty Racket Békásmegyeren.</p>
       </div>
       <ol class="timeline">
-        <li class="reveal"><span>Évek óta</span><p>Otthoni BBQ a családnak és a barátoknak</p></li>
-        <li class="reveal"><span>USA</span><p>In-N-Out: itt kattant be a smashed burger</p></li>
-        <li class="reveal"><span>2025 aug.</span><p>Búcsú a multitól</p></li>
+        <li class="reveal"><span>Évekig</span><p>Otthoni BBQ</p></li>
+        <li class="reveal"><span>USA</span><p>Az In-N-Out-élmény</p></li>
+        <li class="reveal"><span>2025 aug.</span><p>Új irány</p></li>
         <li class="reveal"><span>2025 szept.</span><p>Nyitás a Heltai Jenő téren</p></li>
       </ol>
     </section>
 
     <!-- ============ SAJTÓ ============ -->
     <section class="press section" aria-labelledby="press-title">
-      <p class="eyebrow">05 · Rólunk írták</p>
-      <h2 id="press-title" class="visually-hidden">Rólunk írták</h2>
+      <p class="eyebrow" id="press-title">05 · Rólunk írták</p>
       <div class="press__row">
         <a class="press__card reveal" href="https://welovebudapest.com/cikk/2025/11/10/rusty-rack-bbq-smashed-burger-hamburgerezo-bekasmegyer-iii-kerulet/" target="_blank" rel="noopener">
           <span class="press__src">We Love Budapest</span>
@@ -290,7 +240,7 @@
           <span class="press__go">Cikk elolvasása</span>
         </a>
         <a class="press__card reveal" href="https://welovebudapest.com/toplista/uj-helyek-budapesten-kornyeken-etterem-cukraszda-pekseg-kavezo-2025/" target="_blank" rel="noopener">
-          <span class="press__src">We Love Budapest · Toplista</span>
+          <span class="press__src">We Love Budapest</span>
           <strong>Ezek a gasztrohelyek nyíltak 2025-ben Budapesten</strong>
           <span class="press__go">Toplista megnyitása</span>
         </a>
@@ -304,18 +254,21 @@
 
     <!-- ============ RENDELÉS ============ -->
     <section class="order section" id="rendeles" aria-labelledby="order-title">
-      <div class="order__inner">
-        <p class="eyebrow">06 · Rendelés</p>
-        <h2 id="order-title" class="h2 order__title">Éhes vagy?<br><em>Mi is.</em></h2>
+      <div class="order__inner reveal">
+        <div>
+          <p class="eyebrow">06 · Elvitel és házhozszállítás</p>
+          <h2 id="order-title" class="h2">Rendelés</h2>
+          <p class="section__lead">Hívj, és elviheted, vagy rendeld házhoz.</p>
+        </div>
         <div class="order__grid">
-          <a class="order__card order__card--call magnet" href="tel:+36307266794" data-phone-link>
-            <span>Hívj és vidd el</span><strong data-phone-text>+36 30 726 6794</strong>
+          <a class="order__card" href="tel:+36307266794" data-phone-link>
+            <span>Telefon · elvitel</span><strong data-phone-text>+36 30 726 6794</strong>
           </a>
-          <a class="order__card magnet" href="https://wolt.com/hu/hun/budapest/restaurant/rusty-rack-burgerbbq" target="_blank" rel="noopener">
-            <span>Házhoz</span><strong>Wolt</strong>
+          <a class="order__card" href="https://wolt.com/hu/hun/budapest/restaurant/rusty-rack-burgerbbq" target="_blank" rel="noopener">
+            <span>Házhozszállítás</span><strong>Wolt</strong>
           </a>
-          <a class="order__card magnet" href="https://www.foodora.hu/restaurant/xlx2/rusty-rack-burger-bbq" target="_blank" rel="noopener">
-            <span>Házhoz</span><strong>foodora</strong>
+          <a class="order__card" href="https://www.foodora.hu/restaurant/xlx2/rusty-rack-burger-bbq" target="_blank" rel="noopener">
+            <span>Házhozszállítás</span><strong>foodora</strong>
           </a>
         </div>
       </div>
@@ -326,7 +279,7 @@
       <div class="visit__info">
         <p class="eyebrow">07 · Hol vagyunk</p>
         <h2 id="visit-title" class="h2">Heltai Jenő tér 2.</h2>
-        <p class="visit__addr">1039 Budapest, Békásmegyer – pár lépésre a piactól és a HÉV-megállótól.</p>
+        <p class="visit__addr">1039 Budapest, Békásmegyer – a piac és a HÉV-megálló mellett.</p>
         <div class="visit__status" data-status><span class="status__dot"></span><span data-status-text>Minden nap 10:30 – 21:00</span></div>
         <ul class="hours" id="hours">
           <li><span>Hétfő – Vasárnap</span><span>10:30 – 21:00</span></li>

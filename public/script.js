@@ -118,13 +118,12 @@ function initNav() {
   onScroll();
 }
 
-/* ---------- Parázs, füst és szikrák (egy vászon az egész oldalra) ---------- */
+/* ---------- Halk parázs a nyitókép fölött ---------- */
 const FX = (() => {
   const canvas = $("#fx");
   const ctx = canvas.getContext("2d");
-  let w = 0, h = 0, dpr = 1, running = false;
+  let w = 0, h = 0, dpr = 1, running = false, visible = true;
   const embers = [];
-  const sparks = [];
 
   // Előre megrajzolt izzó pötty: sokkal gyorsabb, mint minden képkockán shadowBlur-t számolni
   const sprite = document.createElement("canvas");
@@ -133,13 +132,13 @@ const FX = (() => {
   const grad = sctx.createRadialGradient(16, 16, 0, 16, 16, 16);
   grad.addColorStop(0, "rgba(255, 220, 150, 1)");
   grad.addColorStop(.18, "rgba(255, 150, 50, .9)");
-  grad.addColorStop(.45, "rgba(255, 106, 31, .28)");
+  grad.addColorStop(.45, "rgba(255, 106, 31, .25)");
   grad.addColorStop(1, "rgba(255, 106, 31, 0)");
   sctx.fillStyle = grad;
   sctx.fillRect(0, 0, 32, 32);
 
   function resize() {
-    // Telefonon kisebb felbontás is bőven elég a parázshoz
+    // Telefonon kisebb felbontás is bőven elég
     dpr = Math.min(window.devicePixelRatio || 1, finePointer ? 2 : 1.5);
     w = window.innerWidth; h = window.innerHeight;
     canvas.width = w * dpr; canvas.height = h * dpr;
@@ -150,100 +149,57 @@ const FX = (() => {
     return {
       x: Math.random() * w,
       y: initial ? Math.random() * h : h + 10,
-      r: Math.random() * 1.8 + .6,
-      vy: -(Math.random() * .7 + .25),
-      vx: (Math.random() - .5) * .3,
+      r: Math.random() * 1.5 + .5,
+      vy: -(Math.random() * .5 + .2),
+      vx: (Math.random() - .5) * .25,
       phase: Math.random() * Math.PI * 2,
-      life: Math.random() * .5 + .5,
+      life: Math.random() * .4 + .4,
     };
   }
 
-  function burst(x, y, n = 26, power = 1) {
-    if (reduced) return;
-    for (let i = 0; i < n; i++) {
-      const a = Math.random() * Math.PI * 2;
-      const s = (Math.random() * 6 + 2) * power;
-      sparks.push({ x, y, px: x, py: y, vx: Math.cos(a) * s, vy: Math.sin(a) * s - 2 * power, life: 1, decay: Math.random() * .025 + .018 });
-    }
-    start();
-  }
-
   function frame(t) {
+    if (!running) return;
     ctx.clearRect(0, 0, w, h);
+    const target = w < 700 ? 16 : 32;
+    while (embers.length < target) embers.push(ember(true));
     ctx.globalCompositeOperation = "lighter";
-
-    // A hero alatt sűrűbb, lejjebb ritkább a parázs
-    const target = Math.round((w < 700 ? 28 : 60) * (window.scrollY < h ? 1 : .45));
-    while (embers.length < target) embers.push(ember(embers.length < target * .6));
-    if (embers.length > target + 10) embers.length = target;
-
     for (const e of embers) {
-      e.phase += .02;
-      e.x += e.vx + Math.sin(e.phase) * .35;
+      e.phase += .015;
+      e.x += e.vx + Math.sin(e.phase) * .25;
       e.y += e.vy;
-      const flicker = .55 + Math.sin(t * .006 + e.phase * 3) * .35;
-      const fade = clamp(e.y / h) * e.life * flicker;
+      const flicker = .6 + Math.sin(t * .004 + e.phase * 3) * .3;
       const size = e.r * 7;
-      ctx.globalAlpha = clamp(fade);
+      ctx.globalAlpha = clamp(clamp(e.y / h) * e.life * flicker);
       ctx.drawImage(sprite, e.x - size / 2, e.y - size / 2, size, size);
       if (e.y < -10) Object.assign(e, ember(false));
     }
     ctx.globalAlpha = 1;
-
-    for (let i = sparks.length - 1; i >= 0; i--) {
-      const s = sparks[i];
-      s.px = s.x; s.py = s.y;
-      s.vy += .18; s.vx *= .98;
-      s.x += s.vx; s.y += s.vy;
-      s.life -= s.decay;
-      if (s.life <= 0) { sparks.splice(i, 1); continue; }
-      ctx.strokeStyle = `rgba(255, ${150 + Math.round(s.life * 90)}, 60, ${s.life})`;
-      ctx.lineWidth = 2 * s.life + .4;
-      ctx.beginPath(); ctx.moveTo(s.px, s.py); ctx.lineTo(s.x, s.y); ctx.stroke();
-    }
     ctx.globalCompositeOperation = "source-over";
-    if (running) requestAnimationFrame(frame);
-  }
-
-  function start() {
-    if (running || reduced || document.hidden) return;
-    running = true;
     requestAnimationFrame(frame);
   }
-  function stop() { running = false; }
+
+  function update() {
+    const should = visible && !document.hidden && !reduced;
+    if (should && !running) { running = true; requestAnimationFrame(frame); }
+    if (!should && running) { running = false; ctx.clearRect(0, 0, w, h); }
+  }
 
   resize();
   window.addEventListener("resize", resize);
-  document.addEventListener("visibilitychange", () => (document.hidden ? stop() : start()));
-  return { start, burst };
+  document.addEventListener("visibilitychange", update);
+  // Csak akkor fut, amíg a nyitókép látszik
+  const hero = $(".hero");
+  if ("IntersectionObserver" in window && hero) {
+    new IntersectionObserver(([en]) => { visible = en.isIntersecting; update(); }).observe(hero);
+  }
+  return { start: update };
 })();
 
-/* ---------- Nyitó „smash” ---------- */
+/* ---------- Nyitókép: egyszerű felúszás, amint a betűk megvannak ---------- */
 function initHero() {
-  const title = $(".hero__title");
-  const go = () => {
-    document.body.classList.add("is-ready");
-    if (reduced) return;
-    // A harmadik sor „becsapódásakor” megrázkódik a cím és szikrák repülnek
-    setTimeout(() => {
-      title.classList.add("is-shaking");
-      const r = title.getBoundingClientRect();
-      FX.burst(r.left + r.width * .45, r.bottom - 20, 60, 1.3);
-      setTimeout(() => title.classList.remove("is-shaking"), 400);
-    }, 950);
-  };
+  const go = () => document.body.classList.add("is-ready");
   const fontsReady = document.fonts ? document.fonts.ready : Promise.resolve();
   Promise.race([fontsReady, new Promise((r) => setTimeout(r, 900))]).then(go);
-
-  // A burger enyhén követi az egeret
-  const burger = $(".hero__burger");
-  if (finePointer && !reduced) {
-    window.addEventListener("pointermove", (e) => {
-      const x = e.clientX / window.innerWidth - .5;
-      const y = e.clientY / window.innerHeight - .5;
-      burger.style.transform = `translate(${x * -24}px, ${y * -18}px) rotate(${x * -6}deg)`;
-    }, { passive: true });
-  }
 }
 
 /* ---------- Háttérvideó a nyitóképben ---------- */
@@ -269,40 +225,7 @@ function initHeroVideo() {
   } else play();
 }
 
-/* ---------- Kurzor körüli parázsfény + kattintásra szikra ---------- */
-function initCursor() {
-  if (!finePointer || reduced) return;
-  const glow = $(".cursor");
-  let x = -500, y = -500, cx = x, cy = y;
-  window.addEventListener("pointermove", (e) => {
-    x = e.clientX; y = e.clientY;
-    document.body.classList.add("has-cursor");
-  }, { passive: true });
-  document.addEventListener("pointerleave", () => document.body.classList.remove("has-cursor"));
-  const loop = () => {
-    cx += (x - cx) * .15; cy += (y - cy) * .15;
-    glow.style.transform = `translate(${cx}px, ${cy}px)`;
-    requestAnimationFrame(loop);
-  };
-  loop();
-  window.addEventListener("pointerdown", (e) => FX.burst(e.clientX, e.clientY, 18, .8));
-}
-
-/* ---------- Mágneses gombok ---------- */
-function initMagnets() {
-  if (!finePointer || reduced) return;
-  $$(".magnet").forEach((el) => {
-    el.addEventListener("pointermove", (e) => {
-      const r = el.getBoundingClientRect();
-      const dx = e.clientX - (r.left + r.width / 2);
-      const dy = e.clientY - (r.top + r.height / 2);
-      el.style.transform = `translate(${dx * .18}px, ${dy * .28}px)`;
-    });
-    el.addEventListener("pointerleave", () => (el.style.transform = ""));
-  });
-}
-
-/* ---------- Anatómia: görgetésre szétnyíló burger ---------- */
+/* ---------- A burger rétegei: görgetésre szétnyílik ---------- */
 function initAnatomy() {
   const section = $(".anatomy");
   const svg = $(".burger--explode");
@@ -315,14 +238,14 @@ function initAnatomy() {
   art.querySelectorAll(":scope > .layer").forEach((layer) => svg.appendChild(layer.cloneNode(true)));
   const layers = $$(".layer", svg);
 
-  let lastStep = -1, ticking = false, collapsed = false;
+  let lastStep = -1, ticking = false;
   const update = () => {
     ticking = false;
     const r = section.getBoundingClientRect();
     const total = section.offsetHeight - window.innerHeight;
     const prog = clamp(-r.top / total);
 
-    // 0–22%: szétnyílik · 22–86%: rétegenként bemutatjuk · 86–100%: összecsapjuk
+    // 0–22%: szétnyílik · 22–86%: rétegenként bemutatjuk · 86–100%: újra összeáll
     let p;
     if (prog < .22) p = prog / .22;
     else if (prog < .86) p = 1;
@@ -339,44 +262,10 @@ function initAnatomy() {
       layers.forEach((l, i) => l.classList.toggle("is-focus", i === 5 - step));
     }
 
-    // Amikor összeáll, egy „smash”: szikrák a burger közepéből
-    if (prog > .985 && !collapsed) {
-      collapsed = true;
-      const b = svg.getBoundingClientRect();
-      FX.burst(b.left + b.width / 2, b.top + b.height * .45, 40, 1.1);
-    } else if (prog < .9) collapsed = false;
   };
   window.addEventListener("scroll", () => { if (!ticking) { ticking = true; requestAnimationFrame(update); } }, { passive: true });
   window.addEventListener("resize", update);
   update();
-}
-
-/* ---------- Étlap: szűrés és 3D billenés ---------- */
-function initMenu() {
-  const tabs = $$(".menu__filters button");
-  const dishes = $$(".dish");
-  tabs.forEach((tab) => tab.addEventListener("click", () => {
-    tabs.forEach((t) => t.setAttribute("aria-selected", String(t === tab)));
-    const f = tab.dataset.filter;
-    dishes.forEach((d) => d.classList.toggle("is-dim", f !== "all" && d.dataset.cat !== f));
-  }));
-
-  if (!finePointer || reduced) return;
-  $$(".tilt").forEach((card) => {
-    card.addEventListener("pointermove", (e) => {
-      const r = card.getBoundingClientRect();
-      const x = (e.clientX - r.left) / r.width;
-      const y = (e.clientY - r.top) / r.height;
-      card.style.setProperty("--ry", `${(x - .5) * 10}deg`);
-      card.style.setProperty("--rx", `${(.5 - y) * 10}deg`);
-      card.style.setProperty("--mx", `${x * 100}%`);
-      card.style.setProperty("--my", `${y * 100}%`);
-    });
-    card.addEventListener("pointerleave", () => {
-      card.style.setProperty("--rx", "0deg");
-      card.style.setProperty("--ry", "0deg");
-    });
-  });
 }
 
 /* ---------- Videók: csak kattintásra töltődnek be (Facebook / TikTok) ---------- */
@@ -416,23 +305,6 @@ function initVideos() {
   reel.addEventListener("click", (e) => { if (moved) { e.stopPropagation(); e.preventDefault(); } }, true);
 }
 
-/* ---------- Idézet: görgetésre „izzik fel” ---------- */
-function initQuote() {
-  const q = $(".story__quote p");
-  if (!q) return;
-  if (reduced) { q.style.setProperty("--fill", "100%"); return; }
-  let ticking = false;
-  const update = () => {
-    ticking = false;
-    const r = q.getBoundingClientRect();
-    const vh = window.innerHeight;
-    const prog = clamp((vh * .85 - r.top) / (vh * .6));
-    q.style.setProperty("--fill", `${(prog * 100).toFixed(1)}%`);
-  };
-  window.addEventListener("scroll", () => { if (!ticking) { ticking = true; requestAnimationFrame(update); } }, { passive: true });
-  update();
-}
-
 /* ---------- Megjelenés görgetésre ---------- */
 function initReveal() {
   const els = $$(".reveal");
@@ -461,13 +333,9 @@ renderStatus();
 setInterval(renderStatus, 60 * 1000);
 initNav();
 initHero();
-initCursor();
-initMagnets();
 initAnatomy();
 initHeroVideo();
-initMenu();
 initVideos();
-initQuote();
 initReveal();
 initMap();
 FX.start();

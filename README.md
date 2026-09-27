@@ -15,34 +15,33 @@ Nincs szükség build lépésre: a `public/` mappa bármilyen statikus tárhelye
 
 ## Megjelenés
 
-- Sötét, füstös, rozsdás hangulat: szén, rozsda, parázs és csont színek (`public/styles.css`, `:root`)
-- Betűtípusok saját tárhelyről: Anton (címek), Space Grotesk (szöveg), Permanent Marker (kézírásos címkék,
-  csak ő és ű nélküli szövegekhez) – `public/assets/fonts/`, SIL Open Font License
+- Letisztult, sötét stílus: szén háttér, csont színű szöveg, egyetlen kiemelőszín (parázs-narancs) – `public/styles.css`, `:root`
+- Két betűtípus saját tárhelyről: Anton (címek) és Space Grotesk (szöveg) – `public/assets/fonts/`, SIL Open Font License
 - A burger rajza kódból készül (SVG, `#burger-art` az `index.html` alján), így nincs szükség fotóra
+- Mozgás csak mértékkel: a nyitókép szövege finoman beúszik, fölötte halk parázs száll (csak amíg a nyitókép látszik),
+  a szekciók görgetésre jelennek meg
 
-## Szekciók és effektek
+## Szekciók
 
-- **Nyitókép**: „Smashed. Smoked. Békásmegyer.” becsapódó felirat, rázkódás és szikrák, lebegő burger, élő nyitva/zárva jelzés
-  és a háttérben elhalványított, hangtalan, ismétlődő videó (lásd lent: „Háttérvideó”)
-- **Parázs**: az egész oldalon felszálló parázs, kattintásra szikrák, parázsfény a kurzor körül (asztali gépen)
-- **01 Anatómia**: görgetésre rétegeire szétnyíló burger, rétegenként bemutatva, a végén újra „összesmash-elve”
-- **02 Étlap**: szűrhető kártyák 3D billenéssel
-- **03 Videók**: a Rusty Rack Facebook-videói és két TikTok-videó. Csak kattintásra töltődnek be
-  (így a látogató addig nem kap Facebook- és TikTok-sütiket)
-- **04 Sztori**, **05 Rólunk írták**, **06 Rendelés** (telefon, Wolt, foodora), **07 Hol vagyunk** (nyitvatartás, térkép kattintásra)
+- **Nyitókép**: „Smashed. Smoked. Békásmegyer.”, rövid bemutatás, Rendelés és Étlap gomb, alatta cím, nyitvatartás és telefon.
+  A háttérben elhalványított, hangtalan, ismétlődő videó mehet (lásd lent: „Háttérvideó”)
+- **01 A burger**: görgetésre rétegeire szétnyíló burger, a rétegek rövid leírásával
+- **02 Étlap**: kiemelt Rusty Rack burger, mellette kategóriánkénti árlista
+- **03 Videók**: Facebook- és TikTok-videók, csak kattintásra töltődnek be (így a látogató addig nem kap Facebook- és TikTok-sütiket)
+- **04 Történet**, **05 Rólunk írták**, **06 Rendelés** (telefon, Wolt, foodora), **07 Hol vagyunk** (élő nyitva/zárva jelzés,
+  nyitvatartás, térkép kattintásra)
 - Telefonon alul mindig ott a **Hívás**, **Útvonal** és **Rendelés** gomb
 - **Telefonra optimalizálva** (320 px-től, álló és fekvő helyzetben is): a címek a kijelző magasságához is igazodnak,
   fekvő telefonon kétoszlopos elrendezés, notch-os telefonokon a szélek szabadon maradnak, legalább 40 px-es érintési
-  felületek. Érintőképernyőn nincs egérkövető effekt és mozgó szemcsés réteg, a parázs kisebb felbontáson, előre
-  megrajzolt pöttyökkel megy, az adatforgalom-kímélő módot bekapcsolók pedig nem töltik le a háttérvideót
-- Aki a rendszerében kikapcsolta az animációkat (`prefers-reduced-motion`), annak minden nyugodt marad
+  felületek; az adatforgalom-kímélő módot bekapcsolók nem töltik le a háttérvideót
+- Aki a rendszerében kikapcsolta az animációkat (`prefers-reduced-motion`), annak minden mozdulatlan marad
 
 ## Tartalom szerkesztése
 
 - `public/script.js` eleje – `SHOP.phone` (ha `null`, eltűnnek a hívás gombok) és `SHOP.hours` (napokra bontott nyitvatartás,
   ebből számolja az oldal budapesti idő szerint, hogy most nyitva van-e)
-- Étlap: `public/index.html`, `<section id="etlap">` – minden kártya egy `<article class="dish">`,
-  a `data-cat` mondja meg a szűrőt (`burger`, `bbq`, `side`)
+- Étlap: `public/index.html`, `<section id="etlap">` – a kiemelt burger az `<article class="feature">`,
+  az árlista tételei a `menu__group` listák `<li>` sorai (név, rövid leírás, ár; ismeretlen árnál „—”)
 - Videók: `public/index.html`, `<section id="videok">` – új videóhoz másolj le egy `<article class="clip">` blokkot és írd át:
   - Facebook: `data-kind="facebook"` és `data-src="https://www.facebook.com/rusty.rack.burger/videos/<videó azonosító>/"`
   - TikTok: `data-kind="tiktok"` és `data-src="https://www.tiktok.com/embed/v2/<videó azonosító>"`
