@@ -5,6 +5,8 @@
 /* ---------- Adatok: ezeket kell módosítani, ha valami változik ---------- */
 const SHOP = {
   name: "Rusty Rack Burger & BBQ",
+  // Videók: első alkalommal egy kattintással kell engedélyezni a Facebook és a TikTok betöltését (sütik miatt)
+  askVideoConsent: true,
   // Ha phone null, a weboldal nem mutatja a hívás gombokat.
   phone: "+36 30 726 6794",
   address: "1039 Budapest, Heltai Jenő tér 2.",
@@ -268,41 +270,154 @@ function initAnatomy() {
   update();
 }
 
-/* ---------- Videók: csak kattintásra töltődnek be (Facebook / TikTok) ---------- */
-function initVideos() {
-  $$("[data-clip]").forEach((clip) => {
-    const btn = $(".clip__play", clip);
-    const title = $(".clip__meta strong", clip).textContent;
-    btn.setAttribute("aria-label", `Videó lejátszása: ${title}`);
-    btn.addEventListener("click", () => {
-      const f = document.createElement("iframe");
-      if (clip.dataset.kind === "facebook") {
-        const width = Math.round(clip.clientWidth);
-        f.src = `https://www.facebook.com/plugins/video.php?href=${encodeURIComponent(clip.dataset.src)}&show_text=false&autoplay=true&width=${width}`;
-      } else {
-        f.src = clip.dataset.src;
-      }
-      f.title = title;
-      f.allow = "autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share; fullscreen";
-      f.allowFullscreen = true;
-      f.loading = "lazy";
-      btn.replaceWith(f);
-    });
-  });
+/* ---------- Videók: élő előnézet (hang nélkül, ismétlődve) ---------- */
+// A Facebook és a TikTok sütiket használhat, ezért első alkalommal egy kattintással engedélyezni kell a betöltést
+// (a döntést a böngésző megjegyzi). Ha ez nem kell: SHOP.askVideoConsent = false.
+const VIDEO_CONSENT_KEY = "rr-videos-ok";
+const TIKTOK_PARAMS = "autoplay=1&muted=1&loop=1&controls=0&progress_bar=0&play_button=0&volume_control=0&fullscreen_button=0&timestamp=0&music_info=0&description=0&rel=0&native_context_menu=0&closed_caption=0";
 
-  // Egérrel húzva is lapozható a videósor
+function initVideos() {
+  const section = $("#videok");
   const reel = $("[data-reel]");
-  if (!reel || !finePointer) return;
-  let down = false, sx = 0, sl = 0, moved = false;
-  reel.addEventListener("pointerdown", (e) => { down = true; moved = false; sx = e.clientX; sl = reel.scrollLeft; });
-  window.addEventListener("pointerup", () => { down = false; reel.style.scrollSnapType = ""; });
-  reel.addEventListener("pointermove", (e) => {
-    if (!down) return;
-    const dx = e.clientX - sx;
-    if (Math.abs(dx) > 6) { moved = true; reel.style.scrollSnapType = "none"; }
-    reel.scrollLeft = sl - dx;
+  const clips = $$("[data-clip]");
+  if (!section || !clips.length) return;
+  const gate = $("[data-video-gate]");
+
+  // Lapozó nyilak (asztali gépen)
+  const step = () => Math.max(260, reel.clientWidth * .8);
+  $("[data-reel-prev]").addEventListener("click", () => reel.scrollBy({ left: -step(), behavior: "smooth" }));
+  $("[data-reel-next]").addEventListener("click", () => reel.scrollBy({ left: step(), behavior: "smooth" }));
+
+  // A Facebook és a TikTok lejátszója csak igazi weboldalon (http/https) működik, helyi fájlként nem
+  if (!/^https?:$/.test(location.protocol)) {
+    gate.hidden = false;
+    $("p", gate).textContent = "A videók csak a feltöltött weboldalon jelennek meg (https://…), helyi fájlként megnyitva nem. Addig a linkekkel nyithatók meg.";
+    $("[data-video-consent]", gate).remove();
+    return;
+  }
+
+  let started = false;
+  const start = () => {
+    if (started) return;
+    started = true;
+    try { localStorage.setItem(VIDEO_CONSENT_KEY, "1"); } catch (e) { /* privát mód */ }
+    gate.hidden = true;
+    section.classList.add("is-live");
+    clips.forEach((clip, i) => (clip.dataset.kind === "tiktok" ? mountTikTok(clip) : mountFacebook(clip, i)));
+    if (clips.some((c) => c.dataset.kind === "facebook")) loadFacebookSDK();
+    watchVisibility(clips);
+  };
+
+  let ok = !SHOP.askVideoConsent;
+  try { ok = ok || localStorage.getItem(VIDEO_CONSENT_KEY) === "1"; } catch (e) { /* privát mód */ }
+  if (ok) {
+    // Akkor töltjük be, amikor a videósor közel ér a képernyőhöz
+    const io = new IntersectionObserver(([en]) => { if (en.isIntersecting) { io.disconnect(); start(); } }, { rootMargin: "600px 0px" });
+    io.observe(section);
+  } else {
+    gate.hidden = false;
+    $("[data-video-consent]", gate).addEventListener("click", start);
+    clips.forEach((clip) => $("[data-frame]", clip).addEventListener("click", start));
+  }
+}
+
+// Csak a látható videók mennek, a többi áll (kíméli a telefont)
+function watchVisibility(clips) {
+  const io = new IntersectionObserver((entries) => entries.forEach((en) => {
+    const clip = en.target;
+    clip.visible = en.isIntersecting;
+    if (!clip.player) return;
+    en.isIntersecting ? clip.player.play() : clip.player.pause();
+  }), { threshold: .4 });
+  clips.forEach((c) => io.observe(c));
+  document.addEventListener("visibilitychange", () => clips.forEach((c) => {
+    if (!c.player) return;
+    document.hidden ? c.player.pause() : c.visible && c.player.play();
+  }));
+}
+
+// Hang be/ki gomb; egyszerre csak egy videó szólhat
+function addSoundButton(clip) {
+  const btn = document.createElement("button");
+  btn.type = "button";
+  btn.className = "clip__sound";
+  btn.setAttribute("aria-pressed", "false");
+  btn.setAttribute("aria-label", "Hang bekapcsolása");
+  btn.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9H4z"/><path class="on" d="M16.5 8.5a5 5 0 0 1 0 7M19 6a8.5 8.5 0 0 1 0 12"/><path class="off" d="M16 9l6 6M22 9l-6 6"/></svg>';
+  btn.addEventListener("click", () => {
+    const turnOn = btn.getAttribute("aria-pressed") !== "true";
+    $$("[data-clip]").forEach((c) => {
+      const b = $(".clip__sound", c);
+      if (!c.player || !b) return;
+      const on = turnOn && c === clip;
+      on ? c.player.unmute() : c.player.mute();
+      b.setAttribute("aria-pressed", String(on));
+      b.setAttribute("aria-label", on ? "Hang kikapcsolása" : "Hang bekapcsolása");
+    });
+    if (turnOn) clip.player.play();
   });
-  reel.addEventListener("click", (e) => { if (moved) { e.stopPropagation(); e.preventDefault(); } }, true);
+  $("[data-frame]", clip).appendChild(btn);
+}
+
+function mountTikTok(clip) {
+  const frame = $("[data-frame]", clip);
+  const f = document.createElement("iframe");
+  f.src = `https://www.tiktok.com/player/v1/${clip.dataset.id}?${TIKTOK_PARAMS}`;
+  f.title = $(".clip__meta strong", clip).textContent;
+  f.allow = "autoplay; encrypted-media; fullscreen; picture-in-picture";
+  f.allowFullscreen = true;
+  frame.appendChild(f);
+  const send = (type, value) => f.contentWindow && f.contentWindow.postMessage({ type, value, "x-tiktok-player": true }, "*");
+  window.addEventListener("message", (e) => {
+    if (e.source !== f.contentWindow || !e.data || !e.data["x-tiktok-player"]) return;
+    if (e.data.type === "onPlayerReady") {
+      clip.player = { play: () => send("play"), pause: () => send("pause"), mute: () => send("mute"), unmute: () => send("unMute") };
+      clip.classList.add("is-ready");
+      addSoundButton(clip);
+      clip.visible === false ? clip.player.pause() : clip.player.play();
+    }
+  });
+}
+
+function mountFacebook(clip, i) {
+  const frame = $("[data-frame]", clip);
+  const v = document.createElement("div");
+  v.className = "fb-video";
+  v.id = `fb-video-${i}`;
+  v.dataset.href = clip.dataset.href;
+  v.dataset.width = String(Math.round(frame.clientWidth) || 280);
+  v.dataset.showText = "false";
+  v.dataset.autoplay = "true";
+  v.dataset.allowfullscreen = "true";
+  frame.appendChild(v);
+}
+
+// A Facebook hivatalos beágyazó programja (egyszer töltjük be); a videók hang nélkül, ismétlődve mennek
+function loadFacebookSDK() {
+  if (window.FB || $("#facebook-jssdk")) return;
+  if (!$("#fb-root")) document.body.insertAdjacentHTML("afterbegin", '<div id="fb-root"></div>');
+  window.fbAsyncInit = () => {
+    FB.init({ xfbml: true, version: "v21.0" });
+    FB.Event.subscribe("xfbml.ready", (msg) => {
+      if (msg.type !== "video") return;
+      const el = document.getElementById(msg.id);
+      const clip = el && el.closest("[data-clip]");
+      if (!clip) return;
+      const p = msg.instance;
+      p.mute();
+      p.subscribe("finishedPlaying", () => { p.seek(0); p.play(); });
+      clip.player = { play: () => p.play(), pause: () => p.pause(), mute: () => p.mute(), unmute: () => p.unmute() };
+      clip.classList.add("is-ready");
+      addSoundButton(clip);
+      clip.visible === false ? p.pause() : p.play();
+    });
+  };
+  const js = document.createElement("script");
+  js.id = "facebook-jssdk";
+  js.async = true;
+  js.crossOrigin = "anonymous";
+  js.src = "https://connect.facebook.net/hu_HU/sdk.js";
+  document.body.appendChild(js);
 }
 
 /* ---------- Megjelenés görgetésre ---------- */

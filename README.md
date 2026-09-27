@@ -27,7 +27,11 @@ Nincs szükség build lépésre: a `public/` mappa bármilyen statikus tárhelye
   A háttérben elhalványított, hangtalan, ismétlődő videó mehet (lásd lent: „Háttérvideó”)
 - **01 A burger**: görgetésre rétegeire szétnyíló burger, a rétegek rövid leírásával
 - **02 Étlap**: kiemelt Rusty Rack burger, mellette kategóriánkénti árlista
-- **03 Videók**: Facebook- és TikTok-videók, csak kattintásra töltődnek be (így a látogató addig nem kap Facebook- és TikTok-sütiket)
+- **03 Videók**: élő előnézet – a Facebook- és TikTok-videók hang nélkül, ismétlődve mennek, amíg látszanak (a többi áll),
+  mindegyiken hang be/ki gomb. Első alkalommal egy kattintással kell engedélyezni a betöltést, mert a Facebook és a TikTok
+  sütiket használhat; a böngésző megjegyzi. Ha ez nem kell: `SHOP.askVideoConsent = false` a `script.js` elején.
+  **Csak feltöltött weboldalon (https://…) működnek**, helyi fájlként megnyitva az oldal ezt ki is írja.
+  Telefonon a Facebook nem mindig engedi az automatikus lejátszást, ilyenkor a videó képe látszik, és koppintásra indul
 - **04 Történet**, **05 Rólunk írták**, **06 Rendelés** (telefon, Wolt, foodora), **07 Hol vagyunk** (élő nyitva/zárva jelzés,
   nyitvatartás, térkép kattintásra)
 - Telefonon alul mindig ott a **Hívás**, **Útvonal** és **Rendelés** gomb
@@ -43,8 +47,8 @@ Nincs szükség build lépésre: a `public/` mappa bármilyen statikus tárhelye
 - Étlap: `public/index.html`, `<section id="etlap">` – a kiemelt burger az `<article class="feature">`,
   az árlista tételei a `menu__group` listák `<li>` sorai (név, rövid leírás, ár; ismeretlen árnál „—”)
 - Videók: `public/index.html`, `<section id="videok">` – új videóhoz másolj le egy `<article class="clip">` blokkot és írd át:
-  - Facebook: `data-kind="facebook"` és `data-src="https://www.facebook.com/rusty.rack.burger/videos/<videó azonosító>/"`
-  - TikTok: `data-kind="tiktok"` és `data-src="https://www.tiktok.com/embed/v2/<videó azonosító>"`
+  - Facebook: `data-kind="facebook"` és `data-href="<a videó vagy reel linkje>"` (pl. `https://www.facebook.com/reel/<szám>/`)
+  - TikTok: `data-kind="tiktok"`, `data-href="<a videó linkje>"` és `data-id="<a link végén lévő szám>"`
 
 ## Honnan jöttek az adatok (élesítés előtt egyeztesd a bolttal!)
 

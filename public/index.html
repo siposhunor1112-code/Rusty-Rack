@@ -178,32 +178,49 @@
     </section>
 
     <!-- ============ VIDEÓK ============ -->
+    <!-- Élő előnézet: a videók hang nélkül, ismétlődve mennek, amikor látszanak. Új videó: másolj le egy <article class="clip"> blokkot.
+         Facebook: data-kind="facebook" + data-href (a videó vagy reel linkje). TikTok: data-kind="tiktok" + data-href + data-id (a link végén lévő szám). -->
     <section class="videos section" id="videok" aria-labelledby="videos-title">
-      <div class="section__head">
-        <p class="eyebrow">03 · Nálunk forgatták</p>
-        <h2 id="videos-title" class="h2">Videók</h2>
-        <p class="section__lead">A videók kattintásra töltődnek be a Facebookról vagy a TikTokról.</p>
+      <div class="section__head videos__head">
+        <div>
+          <p class="eyebrow">03 · Nálunk forgatták</p>
+          <h2 id="videos-title" class="h2">Videók</h2>
+        </div>
+        <div class="reel__nav" aria-hidden="true">
+          <button type="button" class="reel__btn" data-reel-prev tabindex="-1">←</button>
+          <button type="button" class="reel__btn" data-reel-next tabindex="-1">→</button>
+        </div>
+      </div>
+
+      <div class="videos__gate" data-video-gate hidden>
+        <p>A videók a Facebookról és a TikTokról töltődnek be, ezek a szolgáltatók sütiket használhatnak.</p>
+        <button type="button" class="btn btn--ember" data-video-consent>Videók betöltése</button>
       </div>
 
       <div class="reel" data-reel>
-        <!-- Új videó: másold le egy <article class="clip"> blokkot (lásd README). -->
-        <article class="clip" data-clip data-kind="facebook" data-src="https://www.facebook.com/reel/28492429940373411/">
-          <button class="clip__play" type="button"><span class="clip__btn" aria-hidden="true"></span><span class="clip__meta"><em>Facebook</em><strong>A konyhából</strong></span></button>
+        <article class="clip" data-clip data-kind="facebook" data-href="https://www.facebook.com/reel/28492429940373411/">
+          <div class="clip__frame" data-frame><span class="clip__wait" aria-hidden="true"></span></div>
+          <div class="clip__meta"><em>Facebook</em><strong>A konyhából</strong><a href="https://www.facebook.com/reel/28492429940373411/" target="_blank" rel="noopener">Megnyitás a Facebookon</a></div>
         </article>
-        <article class="clip" data-clip data-kind="facebook" data-src="https://www.facebook.com/rusty.rack.burger/videos/2007108203241838/">
-          <button class="clip__play" type="button"><span class="clip__btn" aria-hidden="true"></span><span class="clip__meta"><em>Facebook · Rusty Rack</em><strong>A platnin</strong></span></button>
+        <article class="clip" data-clip data-kind="facebook" data-href="https://www.facebook.com/rusty.rack.burger/videos/2007108203241838/">
+          <div class="clip__frame" data-frame><span class="clip__wait" aria-hidden="true"></span></div>
+          <div class="clip__meta"><em>Facebook · Rusty Rack</em><strong>A platnin</strong><a href="https://www.facebook.com/rusty.rack.burger/videos/2007108203241838/" target="_blank" rel="noopener">Megnyitás a Facebookon</a></div>
         </article>
-        <article class="clip" data-clip data-kind="facebook" data-src="https://www.facebook.com/rusty.rack.burger/videos/1677935973497564/">
-          <button class="clip__play" type="button"><span class="clip__btn" aria-hidden="true"></span><span class="clip__meta"><em>Facebook · Rusty Rack</em><strong>Smashed burger</strong></span></button>
+        <article class="clip" data-clip data-kind="facebook" data-href="https://www.facebook.com/rusty.rack.burger/videos/1677935973497564/">
+          <div class="clip__frame" data-frame><span class="clip__wait" aria-hidden="true"></span></div>
+          <div class="clip__meta"><em>Facebook · Rusty Rack</em><strong>Smashed burger</strong><a href="https://www.facebook.com/rusty.rack.burger/videos/1677935973497564/" target="_blank" rel="noopener">Megnyitás a Facebookon</a></div>
         </article>
-        <article class="clip" data-clip data-kind="facebook" data-src="https://www.facebook.com/rusty.rack.burger/videos/1777364786473700/">
-          <button class="clip__play" type="button"><span class="clip__btn" aria-hidden="true"></span><span class="clip__meta"><em>Facebook · Rusty Rack</em><strong>Burger, pulled pork, loaded fries</strong></span></button>
+        <article class="clip" data-clip data-kind="facebook" data-href="https://www.facebook.com/rusty.rack.burger/videos/1777364786473700/">
+          <div class="clip__frame" data-frame><span class="clip__wait" aria-hidden="true"></span></div>
+          <div class="clip__meta"><em>Facebook · Rusty Rack</em><strong>Burger, pulled pork, loaded fries</strong><a href="https://www.facebook.com/rusty.rack.burger/videos/1777364786473700/" target="_blank" rel="noopener">Megnyitás a Facebookon</a></div>
         </article>
-        <article class="clip" data-clip data-kind="tiktok" data-src="https://www.tiktok.com/embed/v2/7583359050906078486">
-          <button class="clip__play" type="button"><span class="clip__btn" aria-hidden="true"></span><span class="clip__meta"><em>TikTok · @erdodi_peter</em><strong>Smashed burger teszt</strong></span></button>
+        <article class="clip" data-clip data-kind="tiktok" data-href="https://www.tiktok.com/@erdodi_peter/video/7583359050906078486" data-id="7583359050906078486">
+          <div class="clip__frame" data-frame><span class="clip__wait" aria-hidden="true"></span></div>
+          <div class="clip__meta"><em>TikTok · @erdodi_peter</em><strong>Smashed burger teszt</strong><a href="https://www.tiktok.com/@erdodi_peter/video/7583359050906078486" target="_blank" rel="noopener">Megnyitás a TikTokon</a></div>
         </article>
-        <article class="clip" data-clip data-kind="tiktok" data-src="https://www.tiktok.com/embed/v2/7542203510138440982">
-          <button class="clip__play" type="button"><span class="clip__btn" aria-hidden="true"></span><span class="clip__meta"><em>TikTok · @okosgrill</em><strong>Látogatás a Rusty Rackben</strong></span></button>
+        <article class="clip" data-clip data-kind="tiktok" data-href="https://www.tiktok.com/@okosgrill/video/7542203510138440982" data-id="7542203510138440982">
+          <div class="clip__frame" data-frame><span class="clip__wait" aria-hidden="true"></span></div>
+          <div class="clip__meta"><em>TikTok · @okosgrill</em><strong>Látogatás a Rusty Rackben</strong><a href="https://www.tiktok.com/@okosgrill/video/7542203510138440982" target="_blank" rel="noopener">Megnyitás a TikTokon</a></div>
         </article>
       </div>
       <div class="videos__more">
