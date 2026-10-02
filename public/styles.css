@@ -137,9 +137,10 @@ button { font: inherit; color: inherit; }
 .hero__accent { color: var(--ember); padding-top: .14em; }
 .hero__lead { margin: 0 0 32px; max-width: 460px; color: var(--ash); font-size: clamp(16px, 1.3vw, 19px); }
 .hero__cta { display: flex; gap: 12px; flex-wrap: wrap; }
-.hero__burger { justify-self: center; width: min(100%, 560px); }
-.burger--hero { width: 100%; filter: drop-shadow(0 40px 50px rgba(0, 0, 0, .6)); animation: float 7s ease-in-out infinite; }
-@keyframes float { 50% { transform: translateY(-10px); } }
+.hero__events { display: inline-block; margin-top: 22px; padding: 6px 0; font-size: 15px; font-weight: 500; text-decoration: none; border-bottom: 1px solid var(--ember); }
+.hero__events span { color: var(--ash); font-weight: 400; }
+.hero__events::after { content: " →"; color: var(--ember-2); }
+.photo--hero { justify-self: end; width: min(100%, 520px); --ratio: 4 / 5; box-shadow: 0 40px 80px rgba(0, 0, 0, .5); }
 
 .facts { grid-column: 1 / -1; display: grid; grid-template-columns: repeat(3, auto); justify-content: start; gap: 12px 56px; margin: 48px 0 0; padding-top: 24px; border-top: 1px solid var(--line); }
 .facts dt { font-size: 11px; letter-spacing: .2em; text-transform: uppercase; color: var(--ash); margin-bottom: 4px; }
@@ -150,6 +151,30 @@ button { font: inherit; color: inherit; }
 .rise { opacity: 0; transform: translateY(24px); }
 .is-ready .rise { animation: rise .9s var(--ease) forwards; animation-delay: calc(.1s + var(--d, 0) * .1s); }
 @keyframes rise { to { opacity: 1; transform: none; } }
+
+/* ---------- Fotók és helyjelölők ----------
+   Ha a data-photo-ban megadott kép létezik, a helyére kerül (.has-img); addig a helyjelölő látszik. */
+.photo {
+  position: relative; margin: 0; aspect-ratio: var(--ratio, 4 / 3); border-radius: 20px; overflow: hidden;
+  border: 1px solid var(--line); background: var(--soot);
+}
+.photo img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity .6s var(--ease); }
+.photo.has-img img { opacity: 1; }
+.photo.has-img .photo__slot { display: none; }
+.photo__slot {
+  position: absolute; inset: 10px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px;
+  padding: 16px; text-align: center; border-radius: 12px; border: 1px dashed rgba(241, 232, 220, .2);
+  background:
+    radial-gradient(ellipse at 50% 120%, rgba(240, 106, 40, .16), transparent 60%),
+    repeating-linear-gradient(135deg, rgba(241, 232, 220, .025) 0 12px, transparent 12px 24px);
+}
+.photo__slot::before {
+  content: ""; flex: none; width: 40px; height: 40px; margin-bottom: 4px; opacity: .55;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23f1e8dc' stroke-width='1.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3 8a2 2 0 0 1 2-2h2l1.5-2h7L17 6h2a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z'/%3E%3Ccircle cx='12' cy='13' r='4'/%3E%3C/svg%3E") center / contain no-repeat;
+}
+.photo__label { font-size: 11px; letter-spacing: .22em; text-transform: uppercase; color: var(--ember-2); }
+.photo__hint { max-width: 28ch; font-size: 15px; line-height: 1.4; color: var(--bone); }
+.photo__slot code { font: 12px/1.3 ui-monospace, SFMono-Regular, Menlo, monospace; color: var(--ash); overflow-wrap: anywhere; }
 
 /* ---------- Szekciók ---------- */
 .section { position: relative; z-index: 2; padding: clamp(80px, 11vw, 150px) var(--gutter); }
@@ -185,7 +210,7 @@ button { font: inherit; color: inherit; }
   position: sticky; top: 100px; padding: 36px; border-radius: 20px; border: 1px solid var(--line);
   background: radial-gradient(ellipse at 50% 0%, rgba(240, 106, 40, .16), transparent 60%), var(--soot);
 }
-.feature__art { width: 88%; margin: 0 auto 24px; filter: drop-shadow(0 24px 32px rgba(0, 0, 0, .55)); }
+.feature__photo { margin-bottom: 24px; border-radius: 14px; }
 .feature__tag { margin: 0 0 6px; font-size: 12px; letter-spacing: .2em; text-transform: uppercase; color: var(--ember-2); }
 .feature h3 { margin: 0 0 10px; font: 400 clamp(40px, 4.4vw, 64px)/1 var(--display); text-transform: uppercase; }
 .feature p { margin: 0; color: var(--ash); }
@@ -200,6 +225,38 @@ button { font: inherit; color: inherit; }
 .price { flex: none; font-weight: 500; font-variant-numeric: tabular-nums; }
 .price--muted { color: var(--ash); }
 .menu__note { margin: 24px 0 0; font-size: 13px; color: var(--ash); }
+
+/* ---------- Képek ---------- */
+.gallery { border-top: 1px solid var(--line); }
+.gallery__grid { display: grid; grid-template-columns: repeat(4, 1fr); grid-auto-rows: clamp(160px, 18vw, 260px); gap: 14px; }
+.gallery__grid .photo { aspect-ratio: auto; border-radius: 16px; }
+.gallery__big { grid-column: span 2; grid-row: span 2; }
+.gallery__wide { grid-column: 1 / -1; }
+
+/* ---------- Rendezvények ---------- */
+.events { border-top: 1px solid var(--line); }
+.events__top { display: grid; grid-template-columns: 1fr 1fr; gap: 32px clamp(32px, 5vw, 80px); align-items: center; margin-bottom: clamp(40px, 5vw, 64px); }
+.events__top .section__head { margin-bottom: 0; }
+.events__photo { --ratio: 3 / 2; }
+.events__tags { list-style: none; margin: 8px 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: 8px; }
+.events__tags li { padding: 8px 14px; border-radius: 999px; border: 1px solid var(--line); font-size: 14px; color: var(--bone); }
+.events__offers { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+.offer { display: flex; flex-direction: column; gap: 10px; padding: 28px; border-radius: 18px; border: 1px solid var(--line); background: var(--soot); }
+.offer__num { font-size: 13px; letter-spacing: .1em; color: var(--ember-2); font-weight: 500; }
+.offer h3 { margin: 0; font: 400 clamp(26px, 2.4vw, 34px)/1.05 var(--display); text-transform: uppercase; letter-spacing: .02em; }
+.offer p { margin: 0; color: var(--ash); font-size: 15.5px; }
+.events__ask {
+  display: grid; grid-template-columns: 1fr auto; gap: 24px 48px; align-items: center; margin-top: 16px;
+  padding: clamp(28px, 4vw, 48px); border-radius: 24px; border: 1px solid var(--line);
+  background: radial-gradient(ellipse at 100% 0%, rgba(240, 106, 40, .18), transparent 55%), var(--soot);
+}
+.events__ask h3 { margin: 0 0 8px; font: 400 clamp(32px, 3.4vw, 48px)/1 var(--display); text-transform: uppercase; }
+.events__ask p { margin: 0 0 12px; color: var(--ash); }
+.events__list { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 6px 22px; }
+.events__list li { position: relative; padding-left: 16px; }
+.events__list li::before { content: ""; position: absolute; left: 0; top: .62em; width: 6px; height: 6px; border-radius: 50%; background: var(--ember); }
+.events__btns { display: flex; flex-direction: column; gap: 10px; }
+.events__btns .btn { gap: .45em; }
 
 /* ---------- Videók: élő előnézet ---------- */
 .videos__head { display: flex; align-items: end; justify-content: space-between; gap: 24px; max-width: none; }
@@ -261,7 +318,8 @@ button { font: inherit; color: inherit; }
 .story { border-top: 1px solid var(--line); }
 .story__quote { margin: 0 0 clamp(40px, 6vw, 72px); }
 .story__quote p { margin: 0; max-width: 18ch; font: 400 clamp(36px, min(5.6vw, 11svh), 88px)/1.05 var(--display); text-transform: uppercase; }
-.story__grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px 56px; max-width: 1040px; margin-left: auto; }
+.story__grid { display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: auto 1fr; gap: 24px 56px; align-items: start; max-width: 1100px; margin-left: auto; }
+.story__photo { grid-row: span 2; --ratio: 4 / 3; }
 .story__text { margin: 0; font-size: 18px; color: var(--ash); }
 .timeline { list-style: none; padding: 0; margin: clamp(56px, 8vw, 96px) 0 0; display: grid; grid-template-columns: repeat(4, 1fr); border-top: 1px solid var(--line); }
 .timeline li { position: relative; padding: 24px 20px 0 0; }
@@ -303,6 +361,7 @@ button { font: inherit; color: inherit; }
 .visit { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(32px, 5vw, 72px); align-items: stretch; }
 .visit .h2 { font-size: clamp(40px, min(5vw, 12svh), 80px); }
 .visit__addr { margin: 16px 0 24px; color: var(--ash); font-size: 18px; }
+.visit__photo { --ratio: 16 / 9; max-width: 440px; margin-bottom: 24px; border-radius: 16px; }
 .visit__status { display: inline-flex; align-items: center; gap: 10px; padding: 10px 16px; border-radius: 999px; border: 1px solid var(--line); margin-bottom: 20px; }
 .hours { list-style: none; padding: 0; margin: 0 0 28px; max-width: 440px; }
 .hours li { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid var(--line); color: var(--ash); font-variant-numeric: tabular-nums; }
@@ -338,6 +397,8 @@ button { font: inherit; color: inherit; }
    ========================================================= */
 @media (max-width: 1100px) {
   .order__inner { grid-template-columns: 1fr; }
+  .events__offers { grid-template-columns: 1fr 1fr; }
+  .events__offers .offer:last-child { grid-column: 1 / -1; }
 }
 
 @media (max-width: 900px) {
@@ -363,7 +424,7 @@ button { font: inherit; color: inherit; }
   .hero { grid-template-columns: 1fr; grid-template-rows: auto auto auto; padding-top: 104px; align-items: start; }
   .hero__title { font-size: clamp(46px, min(15vw, 11svh), 110px); margin-bottom: 20px; }
   .hero__lead { margin-bottom: 24px; }
-  .hero__burger { grid-row: 2; width: min(80%, 340px); margin: 28px 0 0; }
+  .photo--hero { grid-row: 2; justify-self: stretch; width: 100%; --ratio: 4 / 3; margin: 32px 0 0; }
   .hero__cta .btn { flex: 1; }
   .facts { grid-row: 3; grid-template-columns: 1fr; gap: 14px; margin-top: 32px; }
   .facts div { display: flex; justify-content: space-between; gap: 16px; }
@@ -387,6 +448,14 @@ button { font: inherit; color: inherit; }
   .item strong { font-size: 20px; }
 
   .story__grid, .visit { grid-template-columns: 1fr; }
+  .story__photo { grid-row: auto; --ratio: 4 / 3; }
+  .gallery__grid { grid-template-columns: 1fr 1fr; grid-auto-rows: clamp(140px, 38vw, 240px); gap: 10px; }
+  .gallery__grid .photo:not(.gallery__big) .photo__slot::before { display: none; }
+  .gallery__grid .photo__slot { inset: 6px; padding: 10px; gap: 6px; }
+  .events__top, .events__ask { grid-template-columns: 1fr; }
+  .events__offers { grid-template-columns: 1fr; }
+  .events__offers .offer:last-child { grid-column: auto; }
+  .events__btns .btn { width: 100%; }
   .timeline { grid-template-columns: 1fr 1fr; row-gap: 32px; }
   .press__row, .order__grid { grid-template-columns: 1fr; }
   .mapbox { min-height: 320px; }
@@ -410,7 +479,8 @@ button { font: inherit; color: inherit; }
 
 @media (max-width: 350px) {
   .nav .status [data-status-text] { max-width: 118px; }
-  .feature, .press__card, .order__card { padding: 20px; }
+  .feature, .press__card, .order__card, .offer { padding: 20px; }
+  .photo__hint { font-size: 14px; }
   .order__inner { padding: 28px 20px; }
 }
 
@@ -420,7 +490,7 @@ button { font: inherit; color: inherit; }
   .nav { padding-top: 8px; padding-bottom: 8px; }
   .hero { grid-template-columns: 1.2fr .8fr; grid-template-rows: auto auto; padding-top: 72px; min-height: 0; }
   .hero__title { font-size: clamp(36px, 15svh, 80px); }
-  .hero__burger { grid-column: 2; grid-row: 1; width: 100%; margin: 0; }
+  .photo--hero { grid-column: 2; grid-row: 1; --ratio: 4 / 3; margin: 0; }
   .hero__cta .btn { flex: none; }
   .facts { grid-row: 2; grid-template-columns: repeat(3, auto); }
   .facts div { display: block; }
@@ -434,7 +504,8 @@ button { font: inherit; color: inherit; }
   .menu__layout { grid-template-columns: .8fr 1.2fr; }
   .press__row { grid-template-columns: 1fr 1fr 1fr; }
   .order__grid { grid-template-columns: 1fr 1fr 1fr; }
-  .story__grid, .visit { grid-template-columns: 1fr 1fr; }
+  .story__grid, .visit, .events__top { grid-template-columns: 1fr 1fr; }
+  .gallery__grid { grid-template-columns: repeat(4, 1fr); grid-auto-rows: 34svh; }
   .timeline { grid-template-columns: repeat(4, 1fr); }
   .clip__frame { aspect-ratio: auto; height: 70svh; }
   .reel { grid-auto-columns: calc(70svh * 9 / 16); }

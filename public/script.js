@@ -457,6 +457,21 @@ function initReveal() {
   els.forEach((el, i) => { el.style.transitionDelay = `${(i % 4) * 90}ms`; io.observe(el); });
 }
 
+/* ---------- Fotók: ha a fájl fel van töltve, a helyjelölő helyére kerül ---------- */
+// <figure class="photo" data-photo="assets/photos/…"> – amíg a fájl nincs meg, a helyjelölő látszik
+function initPhotos() {
+  $$("[data-photo]").forEach((fig) => {
+    const img = document.createElement("img");
+    img.alt = fig.dataset.alt || "";
+    img.decoding = "async";
+    img.loading = "eager" in fig.dataset ? "eager" : "lazy";
+    img.addEventListener("load", () => fig.classList.add("has-img"));
+    img.addEventListener("error", () => img.remove());
+    img.src = fig.dataset.photo;
+    fig.prepend(img);
+  });
+}
+
 /* ---------- Térkép: csak kattintásra tölti be a Google Maps-et ---------- */
 function initMap() {
   $$(".mapbox__load").forEach((btn) => btn.addEventListener("click", () => {
@@ -474,6 +489,7 @@ renderHours();
 renderStatus();
 setInterval(renderStatus, 60 * 1000);
 initNav();
+initPhotos();
 initHero();
 initAnatomy();
 initHeroVideo();

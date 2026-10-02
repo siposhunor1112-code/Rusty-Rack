@@ -4,11 +4,11 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>Rusty Rack Burger &amp; BBQ – smashed burger és füstölt BBQ Békásmegyeren</title>
-  <meta name="description" content="Oklahoma-stílusú smashed burgerek és lassan füstölt BBQ húsok a békásmegyeri piacnál. Rusty Rack Burger &amp; BBQ – 1039 Budapest, Heltai Jenő tér 2. Minden nap 10:30–21:00.">
+  <meta name="description" content="Oklahoma-stílusú smashed burgerek és lassan füstölt BBQ húsok a békásmegyeri piacnál. Rusty Rack Burger &amp; BBQ – 1039 Budapest, Heltai Jenő tér 2. Minden nap 10:30–21:00. Rendezvényekre, kitelepülésre is.">
   <meta name="theme-color" content="#0e0b09">
   <meta property="og:type" content="restaurant">
   <meta property="og:title" content="Rusty Rack Burger &amp; BBQ – Békásmegyer">
-  <meta property="og:description" content="Smashed. Smoked. Békásmegyer. Oklahoma-stílusú smashed burgerek és füstölt BBQ a Heltai Jenő téren.">
+  <meta property="og:description" content="Smashed. Smoked. Békásmegyer. Oklahoma-stílusú smashed burgerek és füstölt BBQ a Heltai Jenő téren – rendezvényekre is.">
   <meta property="og:locale" content="hu_HU">
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
   <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
@@ -56,10 +56,10 @@
       <span class="nav__name">Rusty Rack</span>
     </a>
     <nav id="menu" class="nav__links" aria-label="Fő navigáció">
-      <a href="#burger">A burger</a>
       <a href="#etlap">Étlap</a>
+      <a href="#kepek">Képek</a>
+      <a href="#rendezvenyek">Rendezvények</a>
       <a href="#videok">Videók</a>
-      <a href="#tortenet">Történet</a>
       <a href="#hol">Hol vagyunk</a>
     </nav>
     <span class="status" data-status><span class="status__dot"></span><span data-status-text>Minden nap 10:30 – 21:00</span></span>
@@ -94,11 +94,13 @@
           <a class="btn btn--ember" href="#rendeles">Rendelés</a>
           <a class="btn btn--ghost" href="#etlap">Étlap</a>
         </div>
+        <a class="hero__events rise" style="--d:6" href="#rendezvenyek"><span>Céges buli, születésnap?</span> Rendezvényeket is vállalunk</a>
       </div>
 
-      <div class="hero__burger rise" style="--d:3" aria-hidden="true">
-        <svg viewBox="0 0 400 300" class="burger burger--hero"><use href="#burger-art"/></svg>
-      </div>
+      <!-- Fotók: a data-photo-ban megadott fájlt tedd a public/assets/photos/ mappába, és magától a helyjelölő helyére kerül -->
+      <figure class="photo photo--hero rise" style="--d:3" data-photo="assets/photos/hero.jpg" data-eager data-alt="A Rusty Rack smashed burger közelről">
+        <div class="photo__slot"><span class="photo__label">Fotó helye</span><span class="photo__hint">A Rusty Rack burger közelről, ahogy csöpög a cheddar</span><code>assets/photos/<wbr>hero.jpg</code></div>
+      </figure>
 
       <dl class="facts rise" style="--d:6">
         <div><dt>Cím</dt><dd>Heltai Jenő tér 2.</dd></div>
@@ -140,7 +142,9 @@
 
       <div class="menu__layout">
         <article class="feature reveal">
-          <svg class="feature__art" viewBox="0 0 400 300" aria-hidden="true"><use href="#burger-art"/></svg>
+          <figure class="photo feature__photo" data-photo="assets/photos/rusty-rack-burger.jpg" data-alt="A Rusty Rack burger">
+            <div class="photo__slot"><span class="photo__label">Fotó helye</span><span class="photo__hint">A ház burgere tányéron, oldalról</span><code>assets/photos/<wbr>rusty-rack-burger.jpg</code></div>
+          </figure>
           <p class="feature__tag">A ház burgere</p>
           <h3>Rusty Rack</h3>
           <p>Oklahoma-stílusban smash-elve. Csípős változatban jalapeñóval vagy mustárral is kérhető.</p>
@@ -177,13 +181,94 @@
       </div>
     </section>
 
+    <!-- ============ KÉPEK ============ -->
+    <!-- Új kép: tedd a fájlt a public/assets/photos/ mappába a megadott néven – ha megvan, a helyjelölő helyére kerül -->
+    <section class="gallery section" id="kepek" aria-labelledby="gallery-title">
+      <div class="section__head">
+        <p class="eyebrow">03 · Képek</p>
+        <h2 id="gallery-title" class="h2">Így néz ki</h2>
+      </div>
+      <div class="gallery__grid">
+        <figure class="photo gallery__big reveal" data-photo="assets/photos/galeria-1.jpg" data-alt="Smashed burger közelről">
+          <div class="photo__slot"><span class="photo__label">Fotó helye</span><span class="photo__hint">Smashed burger közelről, kettévágva</span><code>assets/photos/<wbr>galeria-1.jpg</code></div>
+        </figure>
+        <figure class="photo reveal" data-photo="assets/photos/galeria-2.jpg" data-alt="A platni sütés közben">
+          <div class="photo__slot"><span class="photo__label">Fotó helye</span><span class="photo__hint">A platni sütés közben</span><code>assets/photos/<wbr>galeria-2.jpg</code></div>
+        </figure>
+        <figure class="photo reveal" data-photo="assets/photos/galeria-3.jpg" data-alt="Füstölt BBQ oldalas">
+          <div class="photo__slot"><span class="photo__label">Fotó helye</span><span class="photo__hint">Füstölt oldalas</span><code>assets/photos/<wbr>galeria-3.jpg</code></div>
+        </figure>
+        <figure class="photo reveal" data-photo="assets/photos/galeria-4.jpg" data-alt="Pulled pork szendvics">
+          <div class="photo__slot"><span class="photo__label">Fotó helye</span><span class="photo__hint">Pulled pork szendvics</span><code>assets/photos/<wbr>galeria-4.jpg</code></div>
+        </figure>
+        <figure class="photo reveal" data-photo="assets/photos/galeria-5.jpg" data-alt="Sajtszószos krumpli">
+          <div class="photo__slot"><span class="photo__label">Fotó helye</span><span class="photo__hint">Sajtszószos krumpli</span><code>assets/photos/<wbr>galeria-5.jpg</code></div>
+        </figure>
+        <figure class="photo gallery__wide reveal" data-photo="assets/photos/galeria-6.jpg" data-alt="A Rusty Rack belülről">
+          <div class="photo__slot"><span class="photo__label">Fotó helye</span><span class="photo__hint">A hely belülről, a pult és a vendégek</span><code>assets/photos/<wbr>galeria-6.jpg</code></div>
+        </figure>
+      </div>
+      <div class="videos__more">
+        <a class="link-arrow" href="https://www.facebook.com/rusty.rack.burger/photos/" target="_blank" rel="noopener">Még több kép a Facebookon</a>
+      </div>
+    </section>
+
+    <!-- ============ RENDEZVÉNYEK ============ -->
+    <section class="events section" id="rendezvenyek" aria-labelledby="events-title">
+      <div class="events__top">
+        <div class="section__head">
+          <p class="eyebrow">04 · Kitelepülés és catering</p>
+          <h2 id="events-title" class="h2">Rendezvények</h2>
+          <p class="section__lead">Céges buli, születésnap, csapatépítő vagy családi nap: smashed burgert és füstölt BBQ-t viszünk oda, ahol ünnepeltek.</p>
+          <ul class="events__tags" aria-label="Alkalmak">
+            <li>Céges rendezvény</li><li>Születésnap</li><li>Csapatépítő</li><li>Ballagás, diplomaosztó</li><li>Kerti parti</li><li>Családi összejövetel</li>
+          </ul>
+        </div>
+        <figure class="photo events__photo reveal" data-photo="assets/photos/rendezveny.jpg" data-alt="A Rusty Rack egy rendezvényen">
+          <div class="photo__slot"><span class="photo__label">Fotó helye</span><span class="photo__hint">Egy korábbi rendezvény vagy kitelepülés, sorban álló vendégekkel</span><code>assets/photos/<wbr>rendezveny.jpg</code></div>
+        </figure>
+      </div>
+
+      <div class="events__offers">
+        <article class="offer reveal">
+          <span class="offer__num">01</span>
+          <h3>Kitelepülés</h3>
+          <p>Helyben sütünk: frissen smash-elt burgerek és BBQ a rendezvényed helyszínén.</p>
+        </article>
+        <article class="offer reveal">
+          <span class="offer__num">02</span>
+          <h3>BBQ tálak, catering</h3>
+          <p>Füstölt húsok, pulled pork, oldalas és köretek nagyobb társaságnak, átvéve vagy kiszállítva.</p>
+        </article>
+        <article class="offer reveal">
+          <span class="offer__num">03</span>
+          <h3>Egyedi ajánlat</h3>
+          <p>A létszámhoz, az alkalomhoz és a kerethez igazított menü – a részleteket közösen rakjuk össze.</p>
+        </article>
+      </div>
+
+      <div class="events__ask reveal">
+        <div>
+          <h3>Ajánlatkérés</h3>
+          <p>Hívj vagy írj, és mondd el:</p>
+          <ul class="events__list">
+            <li>mikor lesz</li><li>hány főre</li><li>hol (cím, kint vagy bent)</li><li>milyen alkalomra</li>
+          </ul>
+        </div>
+        <div class="events__btns">
+          <a class="btn btn--ember" href="tel:+36307266794" data-phone-link>Hívás: <span data-phone-text>+36 30 726 6794</span></a>
+          <a class="btn btn--ghost" href="https://m.me/rusty.rack.burger" target="_blank" rel="noopener">Írj Messengeren</a>
+        </div>
+      </div>
+    </section>
+
     <!-- ============ VIDEÓK ============ -->
     <!-- Élő előnézet: a videók hang nélkül, ismétlődve mennek, amikor látszanak. Új videó: másolj le egy <article class="clip"> blokkot.
          Facebook: data-kind="facebook" + data-href (a videó vagy reel linkje). TikTok: data-kind="tiktok" + data-href + data-id (a link végén lévő szám). -->
     <section class="videos section" id="videok" aria-labelledby="videos-title">
       <div class="section__head videos__head">
         <div>
-          <p class="eyebrow">03 · Nálunk forgatták</p>
+          <p class="eyebrow">05 · Nálunk forgatták</p>
           <h2 id="videos-title" class="h2">Videók</h2>
         </div>
         <div class="reel__nav" aria-hidden="true">
@@ -231,11 +316,14 @@
 
     <!-- ============ TÖRTÉNET ============ -->
     <section class="story section" id="tortenet" aria-labelledby="story-title">
-      <p class="eyebrow">04 · Történet</p>
+      <p class="eyebrow">06 · Történet</p>
       <blockquote class="story__quote reveal">
         <p id="story-title">„Apa, lehetne olyan munkád, ahol nem kell folyton utazni?”</p>
       </blockquote>
       <div class="story__grid">
+        <figure class="photo story__photo reveal" data-photo="assets/photos/gergo.jpg" data-alt="Katona Gergő, a Rusty Rack alapítója">
+          <div class="photo__slot"><span class="photo__label">Fotó helye</span><span class="photo__hint">Katona Gergő a platni mögött</span><code>assets/photos/<wbr>gergo.jpg</code></div>
+        </figure>
         <p class="story__text reveal">Katona Gergő szoftvermérnök és közgazdász. Évekig vezető pozíciókban dolgozott multinacionális cégeknél, Kínától Angliáig. Közben otthon évek óta füstölt és grillezett a családjának és a barátainak.</p>
         <p class="story__text reveal">A fia kérdése és egy amerikai In-N-Out-élmény után döntött: 2025 augusztusában otthagyta a vállalati világot, szeptemberben pedig megnyitotta a Rusty Racket Békásmegyeren.</p>
       </div>
@@ -249,7 +337,7 @@
 
     <!-- ============ SAJTÓ ============ -->
     <section class="press section" aria-labelledby="press-title">
-      <p class="eyebrow" id="press-title">05 · Rólunk írták</p>
+      <p class="eyebrow" id="press-title">07 · Rólunk írták</p>
       <div class="press__row">
         <a class="press__card reveal" href="https://welovebudapest.com/cikk/2025/11/10/rusty-rack-bbq-smashed-burger-hamburgerezo-bekasmegyer-iii-kerulet/" target="_blank" rel="noopener">
           <span class="press__src">We Love Budapest</span>
@@ -273,7 +361,7 @@
     <section class="order section" id="rendeles" aria-labelledby="order-title">
       <div class="order__inner reveal">
         <div>
-          <p class="eyebrow">06 · Elvitel és házhozszállítás</p>
+          <p class="eyebrow">08 · Elvitel és házhozszállítás</p>
           <h2 id="order-title" class="h2">Rendelés</h2>
           <p class="section__lead">Hívj, és elviheted, vagy rendeld házhoz.</p>
         </div>
@@ -294,9 +382,12 @@
     <!-- ============ HOL VAGYUNK ============ -->
     <section class="visit section" id="hol" aria-labelledby="visit-title">
       <div class="visit__info">
-        <p class="eyebrow">07 · Hol vagyunk</p>
+        <p class="eyebrow">09 · Hol vagyunk</p>
         <h2 id="visit-title" class="h2">Heltai Jenő tér 2.</h2>
         <p class="visit__addr">1039 Budapest, Békásmegyer – a piac és a HÉV-megálló mellett.</p>
+        <figure class="photo visit__photo" data-photo="assets/photos/bejarat.jpg" data-alt="A Rusty Rack bejárata kívülről">
+          <div class="photo__slot"><span class="photo__label">Fotó helye</span><span class="photo__hint">A bejárat kívülről, hogy könnyű legyen megtalálni</span><code>assets/photos/<wbr>bejarat.jpg</code></div>
+        </figure>
         <div class="visit__status" data-status><span class="status__dot"></span><span data-status-text>Minden nap 10:30 – 21:00</span></div>
         <ul class="hours" id="hours">
           <li><span>Hétfő – Vasárnap</span><span>10:30 – 21:00</span></li>
