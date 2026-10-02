@@ -210,7 +210,7 @@ button { font: inherit; color: inherit; }
   position: sticky; top: 100px; padding: 36px; border-radius: 20px; border: 1px solid var(--line);
   background: radial-gradient(ellipse at 50% 0%, rgba(240, 106, 40, .16), transparent 60%), var(--soot);
 }
-.feature__photo { margin-bottom: 24px; border-radius: 14px; }
+.feature__art { width: 88%; margin: 0 auto 24px; filter: drop-shadow(0 24px 32px rgba(0, 0, 0, .55)); }
 .feature__tag { margin: 0 0 6px; font-size: 12px; letter-spacing: .2em; text-transform: uppercase; color: var(--ember-2); }
 .feature h3 { margin: 0 0 10px; font: 400 clamp(40px, 4.4vw, 64px)/1 var(--display); text-transform: uppercase; }
 .feature p { margin: 0; color: var(--ash); }
@@ -219,19 +219,18 @@ button { font: inherit; color: inherit; }
 .menu__group + .menu__group { margin-top: 44px; }
 .menu__group h3 { margin: 0 0 8px; font: 500 12px/1 var(--body); letter-spacing: .22em; text-transform: uppercase; color: var(--ember-2); }
 .menu__group ul { list-style: none; margin: 0; padding: 0; }
-.menu__group li { display: flex; align-items: baseline; justify-content: space-between; gap: 24px; padding: 18px 0; border-bottom: 1px solid var(--line); }
+.menu__group li { display: flex; align-items: center; gap: 20px; padding: 16px 0; border-bottom: 1px solid var(--line); }
+.menu__group .item { flex: 1; min-width: 0; }
+/* Kis fotóhely minden étel mellett */
+.photo--thumb { flex: none; width: 76px; --ratio: 1 / 1; border-radius: 12px; }
+.photo--thumb .photo__slot { inset: 4px; padding: 4px; gap: 2px; border-radius: 8px; }
+.photo--thumb .photo__slot::before { width: 22px; height: 22px; margin: 0; }
+.photo--thumb .photo__label { font-size: 9px; letter-spacing: .16em; }
 .item strong { display: block; font: 400 22px/1.2 var(--display); text-transform: uppercase; letter-spacing: .03em; }
 .item small { display: block; margin-top: 4px; font-size: 14px; color: var(--ash); }
 .price { flex: none; font-weight: 500; font-variant-numeric: tabular-nums; }
 .price--muted { color: var(--ash); }
 .menu__note { margin: 24px 0 0; font-size: 13px; color: var(--ash); }
-
-/* ---------- Képek ---------- */
-.gallery { border-top: 1px solid var(--line); }
-.gallery__grid { display: grid; grid-template-columns: repeat(4, 1fr); grid-auto-rows: clamp(160px, 18vw, 260px); gap: 14px; }
-.gallery__grid .photo { aspect-ratio: auto; border-radius: 16px; }
-.gallery__big { grid-column: span 2; grid-row: span 2; }
-.gallery__wide { grid-column: 1 / -1; }
 
 /* ---------- Rendezvények ---------- */
 .events { border-top: 1px solid var(--line); }
@@ -318,8 +317,7 @@ button { font: inherit; color: inherit; }
 .story { border-top: 1px solid var(--line); }
 .story__quote { margin: 0 0 clamp(40px, 6vw, 72px); }
 .story__quote p { margin: 0; max-width: 18ch; font: 400 clamp(36px, min(5.6vw, 11svh), 88px)/1.05 var(--display); text-transform: uppercase; }
-.story__grid { display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: auto 1fr; gap: 24px 56px; align-items: start; max-width: 1100px; margin-left: auto; }
-.story__photo { grid-row: span 2; --ratio: 4 / 3; }
+.story__grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px 56px; max-width: 1040px; margin-left: auto; }
 .story__text { margin: 0; font-size: 18px; color: var(--ash); }
 .timeline { list-style: none; padding: 0; margin: clamp(56px, 8vw, 96px) 0 0; display: grid; grid-template-columns: repeat(4, 1fr); border-top: 1px solid var(--line); }
 .timeline li { position: relative; padding: 24px 20px 0 0; }
@@ -448,10 +446,6 @@ button { font: inherit; color: inherit; }
   .item strong { font-size: 20px; }
 
   .story__grid, .visit { grid-template-columns: 1fr; }
-  .story__photo { grid-row: auto; --ratio: 4 / 3; }
-  .gallery__grid { grid-template-columns: 1fr 1fr; grid-auto-rows: clamp(140px, 38vw, 240px); gap: 10px; }
-  .gallery__grid .photo:not(.gallery__big) .photo__slot::before { display: none; }
-  .gallery__grid .photo__slot { inset: 6px; padding: 10px; gap: 6px; }
   .events__top, .events__ask { grid-template-columns: 1fr; }
   .events__offers { grid-template-columns: 1fr; }
   .events__offers .offer:last-child { grid-column: auto; }
@@ -475,6 +469,7 @@ button { font: inherit; color: inherit; }
 @media (max-width: 420px) {
   .nav .status [data-status-text] { display: inline-block; max-width: 150px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; vertical-align: middle; }
   .menu__group li { gap: 14px; }
+  .photo--thumb { width: 60px; }
 }
 
 @media (max-width: 350px) {
@@ -505,7 +500,6 @@ button { font: inherit; color: inherit; }
   .press__row { grid-template-columns: 1fr 1fr 1fr; }
   .order__grid { grid-template-columns: 1fr 1fr 1fr; }
   .story__grid, .visit, .events__top { grid-template-columns: 1fr 1fr; }
-  .gallery__grid { grid-template-columns: repeat(4, 1fr); grid-auto-rows: 34svh; }
   .timeline { grid-template-columns: repeat(4, 1fr); }
   .clip__frame { aspect-ratio: auto; height: 70svh; }
   .reel { grid-auto-columns: calc(70svh * 9 / 16); }

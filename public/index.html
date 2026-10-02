@@ -57,7 +57,6 @@
     </a>
     <nav id="menu" class="nav__links" aria-label="Fő navigáció">
       <a href="#etlap">Étlap</a>
-      <a href="#kepek">Képek</a>
       <a href="#rendezvenyek">Rendezvények</a>
       <a href="#videok">Videók</a>
       <a href="#hol">Hol vagyunk</a>
@@ -99,7 +98,7 @@
 
       <!-- Fotók: a data-photo-ban megadott fájlt tedd a public/assets/photos/ mappába, és magától a helyjelölő helyére kerül -->
       <figure class="photo photo--hero rise" style="--d:3" data-photo="assets/photos/hero.jpg" data-eager data-alt="A Rusty Rack smashed burger közelről">
-        <div class="photo__slot"><span class="photo__label">Fotó helye</span><span class="photo__hint">A Rusty Rack burger közelről, ahogy csöpög a cheddar</span><code>assets/photos/<wbr>hero.jpg</code></div>
+        <div class="photo__slot"><span class="photo__label">Fotó helye</span><span class="photo__hint">A Rusty Rack burger közelről</span><code>assets/photos/<wbr>hero.jpg</code></div>
       </figure>
 
       <dl class="facts rise" style="--d:6">
@@ -142,9 +141,7 @@
 
       <div class="menu__layout">
         <article class="feature reveal">
-          <figure class="photo feature__photo" data-photo="assets/photos/rusty-rack-burger.jpg" data-alt="A Rusty Rack burger">
-            <div class="photo__slot"><span class="photo__label">Fotó helye</span><span class="photo__hint">A ház burgere tányéron, oldalról</span><code>assets/photos/<wbr>rusty-rack-burger.jpg</code></div>
-          </figure>
+          <svg class="feature__art" viewBox="0 0 400 300" aria-hidden="true"><use href="#burger-art"/></svg>
           <p class="feature__tag">A ház burgere</p>
           <h3>Rusty Rack</h3>
           <p>Oklahoma-stílusban smash-elve. Csípős változatban jalapeñóval vagy mustárral is kérhető.</p>
@@ -155,25 +152,25 @@
           <div class="menu__group reveal">
             <h3>Burgerek</h3>
             <ul>
-              <li><span class="item"><strong>Rusty Rack</strong><small>A ház burgere, csípős változatban is</small></span><span class="price">3 290 Ft</span></li>
-              <li><span class="item"><strong>Húsimádó</strong><small>Dupla hússal</small></span><span class="price">4 690 Ft</span></li>
-              <li><span class="item"><strong>További három smashed burger</strong><small>Az aktuális kínálat a helyszínen</small></span><span class="price price--muted">—</span></li>
+              <li><figure class="photo photo--thumb" data-photo="assets/photos/etel-rusty-rack.jpg" data-alt="Rusty Rack" title="Fotó helye: assets/photos/etel-rusty-rack.jpg"><div class="photo__slot"><span class="photo__label">Fotó</span></div></figure><span class="item"><strong>Rusty Rack</strong><small>A ház burgere, csípős változatban is</small></span><span class="price">3 290 Ft</span></li>
+              <li><figure class="photo photo--thumb" data-photo="assets/photos/etel-husimado.jpg" data-alt="Húsimádó" title="Fotó helye: assets/photos/etel-husimado.jpg"><div class="photo__slot"><span class="photo__label">Fotó</span></div></figure><span class="item"><strong>Húsimádó</strong><small>Dupla hússal</small></span><span class="price">4 690 Ft</span></li>
+              <li><figure class="photo photo--thumb" data-photo="assets/photos/etel-tovabbi-burgerek.jpg" data-alt="További három smashed burger" title="Fotó helye: assets/photos/etel-tovabbi-burgerek.jpg"><div class="photo__slot"><span class="photo__label">Fotó</span></div></figure><span class="item"><strong>További három smashed burger</strong><small>Az aktuális kínálat a helyszínen</small></span><span class="price price--muted">—</span></li>
             </ul>
           </div>
           <div class="menu__group reveal">
             <h3>BBQ</h3>
             <ul>
-              <li><span class="item"><strong>Pulled pork szendvics</strong><small>Füstölt, tépett sertés, coleslaw, BBQ szósz</small></span><span class="price">3 290 Ft</span></li>
-              <li><span class="item"><strong>Oldalas</strong><small>Lassan füstölt BBQ oldalas</small></span><span class="price price--muted">—</span></li>
+              <li><figure class="photo photo--thumb" data-photo="assets/photos/etel-pulled-pork.jpg" data-alt="Pulled pork szendvics" title="Fotó helye: assets/photos/etel-pulled-pork.jpg"><div class="photo__slot"><span class="photo__label">Fotó</span></div></figure><span class="item"><strong>Pulled pork szendvics</strong><small>Füstölt, tépett sertés, coleslaw, BBQ szósz</small></span><span class="price">3 290 Ft</span></li>
+              <li><figure class="photo photo--thumb" data-photo="assets/photos/etel-oldalas.jpg" data-alt="Oldalas" title="Fotó helye: assets/photos/etel-oldalas.jpg"><div class="photo__slot"><span class="photo__label">Fotó</span></div></figure><span class="item"><strong>Oldalas</strong><small>Lassan füstölt BBQ oldalas</small></span><span class="price price--muted">—</span></li>
             </ul>
           </div>
           <div class="menu__group reveal">
             <h3>Quesadilla és köretek</h3>
             <ul>
-              <li><span class="item"><strong>Quesadilla</strong><small>Háromféle hússal; teljes kiőrlésű vagy gluténmentes tortillában is, felárral</small></span><span class="price price--muted">—</span></li>
-              <li><span class="item"><strong>Sajtszószos krumpli</strong><small>Háromféle hússal</small></span><span class="price price--muted">—</span></li>
-              <li><span class="item"><strong>Hasábburgonya</strong></span><span class="price">780 Ft</span></li>
-              <li><span class="item"><strong>Coleslaw</strong></span><span class="price price--muted">—</span></li>
+              <li><figure class="photo photo--thumb" data-photo="assets/photos/etel-quesadilla.jpg" data-alt="Quesadilla" title="Fotó helye: assets/photos/etel-quesadilla.jpg"><div class="photo__slot"><span class="photo__label">Fotó</span></div></figure><span class="item"><strong>Quesadilla</strong><small>Háromféle hússal; teljes kiőrlésű vagy gluténmentes tortillában is, felárral</small></span><span class="price price--muted">—</span></li>
+              <li><figure class="photo photo--thumb" data-photo="assets/photos/etel-sajtszoszos-krumpli.jpg" data-alt="Sajtszószos krumpli" title="Fotó helye: assets/photos/etel-sajtszoszos-krumpli.jpg"><div class="photo__slot"><span class="photo__label">Fotó</span></div></figure><span class="item"><strong>Sajtszószos krumpli</strong><small>Háromféle hússal</small></span><span class="price price--muted">—</span></li>
+              <li><figure class="photo photo--thumb" data-photo="assets/photos/etel-hasabburgonya.jpg" data-alt="Hasábburgonya" title="Fotó helye: assets/photos/etel-hasabburgonya.jpg"><div class="photo__slot"><span class="photo__label">Fotó</span></div></figure><span class="item"><strong>Hasábburgonya</strong></span><span class="price">780 Ft</span></li>
+              <li><figure class="photo photo--thumb" data-photo="assets/photos/etel-coleslaw.jpg" data-alt="Coleslaw" title="Fotó helye: assets/photos/etel-coleslaw.jpg"><div class="photo__slot"><span class="photo__label">Fotó</span></div></figure><span class="item"><strong>Coleslaw</strong></span><span class="price price--muted">—</span></li>
             </ul>
           </div>
           <p class="menu__note">Az árak tájékoztató jellegűek, a helyszíni étlap az irányadó. A „—” jelű tételek ára a helyszínen érhető el.</p>
@@ -181,43 +178,11 @@
       </div>
     </section>
 
-    <!-- ============ KÉPEK ============ -->
-    <!-- Új kép: tedd a fájlt a public/assets/photos/ mappába a megadott néven – ha megvan, a helyjelölő helyére kerül -->
-    <section class="gallery section" id="kepek" aria-labelledby="gallery-title">
-      <div class="section__head">
-        <p class="eyebrow">03 · Képek</p>
-        <h2 id="gallery-title" class="h2">Így néz ki</h2>
-      </div>
-      <div class="gallery__grid">
-        <figure class="photo gallery__big reveal" data-photo="assets/photos/galeria-1.jpg" data-alt="Smashed burger közelről">
-          <div class="photo__slot"><span class="photo__label">Fotó helye</span><span class="photo__hint">Smashed burger közelről, kettévágva</span><code>assets/photos/<wbr>galeria-1.jpg</code></div>
-        </figure>
-        <figure class="photo reveal" data-photo="assets/photos/galeria-2.jpg" data-alt="A platni sütés közben">
-          <div class="photo__slot"><span class="photo__label">Fotó helye</span><span class="photo__hint">A platni sütés közben</span><code>assets/photos/<wbr>galeria-2.jpg</code></div>
-        </figure>
-        <figure class="photo reveal" data-photo="assets/photos/galeria-3.jpg" data-alt="Füstölt BBQ oldalas">
-          <div class="photo__slot"><span class="photo__label">Fotó helye</span><span class="photo__hint">Füstölt oldalas</span><code>assets/photos/<wbr>galeria-3.jpg</code></div>
-        </figure>
-        <figure class="photo reveal" data-photo="assets/photos/galeria-4.jpg" data-alt="Pulled pork szendvics">
-          <div class="photo__slot"><span class="photo__label">Fotó helye</span><span class="photo__hint">Pulled pork szendvics</span><code>assets/photos/<wbr>galeria-4.jpg</code></div>
-        </figure>
-        <figure class="photo reveal" data-photo="assets/photos/galeria-5.jpg" data-alt="Sajtszószos krumpli">
-          <div class="photo__slot"><span class="photo__label">Fotó helye</span><span class="photo__hint">Sajtszószos krumpli</span><code>assets/photos/<wbr>galeria-5.jpg</code></div>
-        </figure>
-        <figure class="photo gallery__wide reveal" data-photo="assets/photos/galeria-6.jpg" data-alt="A Rusty Rack belülről">
-          <div class="photo__slot"><span class="photo__label">Fotó helye</span><span class="photo__hint">A hely belülről, a pult és a vendégek</span><code>assets/photos/<wbr>galeria-6.jpg</code></div>
-        </figure>
-      </div>
-      <div class="videos__more">
-        <a class="link-arrow" href="https://www.facebook.com/rusty.rack.burger/photos/" target="_blank" rel="noopener">Még több kép a Facebookon</a>
-      </div>
-    </section>
-
     <!-- ============ RENDEZVÉNYEK ============ -->
     <section class="events section" id="rendezvenyek" aria-labelledby="events-title">
       <div class="events__top">
         <div class="section__head">
-          <p class="eyebrow">04 · Kitelepülés és catering</p>
+          <p class="eyebrow">03 · Kitelepülés és catering</p>
           <h2 id="events-title" class="h2">Rendezvények</h2>
           <p class="section__lead">Céges buli, születésnap, csapatépítő vagy családi nap: smashed burgert és füstölt BBQ-t viszünk oda, ahol ünnepeltek.</p>
           <ul class="events__tags" aria-label="Alkalmak">
@@ -268,7 +233,7 @@
     <section class="videos section" id="videok" aria-labelledby="videos-title">
       <div class="section__head videos__head">
         <div>
-          <p class="eyebrow">05 · Nálunk forgatták</p>
+          <p class="eyebrow">04 · Nálunk forgatták</p>
           <h2 id="videos-title" class="h2">Videók</h2>
         </div>
         <div class="reel__nav" aria-hidden="true">
@@ -316,14 +281,11 @@
 
     <!-- ============ TÖRTÉNET ============ -->
     <section class="story section" id="tortenet" aria-labelledby="story-title">
-      <p class="eyebrow">06 · Történet</p>
+      <p class="eyebrow">05 · Történet</p>
       <blockquote class="story__quote reveal">
         <p id="story-title">„Apa, lehetne olyan munkád, ahol nem kell folyton utazni?”</p>
       </blockquote>
       <div class="story__grid">
-        <figure class="photo story__photo reveal" data-photo="assets/photos/gergo.jpg" data-alt="Katona Gergő, a Rusty Rack alapítója">
-          <div class="photo__slot"><span class="photo__label">Fotó helye</span><span class="photo__hint">Katona Gergő a platni mögött</span><code>assets/photos/<wbr>gergo.jpg</code></div>
-        </figure>
         <p class="story__text reveal">Katona Gergő szoftvermérnök és közgazdász. Évekig vezető pozíciókban dolgozott multinacionális cégeknél, Kínától Angliáig. Közben otthon évek óta füstölt és grillezett a családjának és a barátainak.</p>
         <p class="story__text reveal">A fia kérdése és egy amerikai In-N-Out-élmény után döntött: 2025 augusztusában otthagyta a vállalati világot, szeptemberben pedig megnyitotta a Rusty Racket Békásmegyeren.</p>
       </div>
@@ -337,7 +299,7 @@
 
     <!-- ============ SAJTÓ ============ -->
     <section class="press section" aria-labelledby="press-title">
-      <p class="eyebrow" id="press-title">07 · Rólunk írták</p>
+      <p class="eyebrow" id="press-title">06 · Rólunk írták</p>
       <div class="press__row">
         <a class="press__card reveal" href="https://welovebudapest.com/cikk/2025/11/10/rusty-rack-bbq-smashed-burger-hamburgerezo-bekasmegyer-iii-kerulet/" target="_blank" rel="noopener">
           <span class="press__src">We Love Budapest</span>
@@ -361,7 +323,7 @@
     <section class="order section" id="rendeles" aria-labelledby="order-title">
       <div class="order__inner reveal">
         <div>
-          <p class="eyebrow">08 · Elvitel és házhozszállítás</p>
+          <p class="eyebrow">07 · Elvitel és házhozszállítás</p>
           <h2 id="order-title" class="h2">Rendelés</h2>
           <p class="section__lead">Hívj, és elviheted, vagy rendeld házhoz.</p>
         </div>
@@ -382,7 +344,7 @@
     <!-- ============ HOL VAGYUNK ============ -->
     <section class="visit section" id="hol" aria-labelledby="visit-title">
       <div class="visit__info">
-        <p class="eyebrow">09 · Hol vagyunk</p>
+        <p class="eyebrow">08 · Hol vagyunk</p>
         <h2 id="visit-title" class="h2">Heltai Jenő tér 2.</h2>
         <p class="visit__addr">1039 Budapest, Békásmegyer – a piac és a HÉV-megálló mellett.</p>
         <figure class="photo visit__photo" data-photo="assets/photos/bejarat.jpg" data-alt="A Rusty Rack bejárata kívülről">

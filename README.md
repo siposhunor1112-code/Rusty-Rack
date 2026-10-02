@@ -17,7 +17,7 @@ Nincs szükség build lépésre: a `public/` mappa bármilyen statikus tárhelye
 
 - Letisztult, sötét stílus: szén háttér, csont színű szöveg, egyetlen kiemelőszín (parázs-narancs) – `public/styles.css`, `:root`
 - Két betűtípus saját tárhelyről: Anton (címek) és Space Grotesk (szöveg) – `public/assets/fonts/`, SIL Open Font License
-- A burger rajza kódból készül (SVG, `#burger-art` az `index.html` alján) – ez a „01 A burger” szekcióban látszik
+- A burger rajza kódból készül (SVG, `#burger-art` az `index.html` alján) – a „01 A burger” szekcióban és az étlap kiemelt kártyáján látszik
 - A fotók helyén addig helyjelölő látszik, amíg a képet fel nem töltöd (lásd lent: „Fotók”)
 - Mozgás csak mértékkel: a nyitókép szövege finoman beúszik, fölötte halk parázs száll (csak amíg a nyitókép látszik),
   a szekciók görgetésre jelennek meg
@@ -28,18 +28,17 @@ Nincs szükség build lépésre: a `public/` mappa bármilyen statikus tárhelye
   link, jobbra nagy fotó, alul cím, nyitvatartás és telefon.
   A háttérben elhalványított, hangtalan, ismétlődő videó mehet (lásd lent: „Háttérvideó”)
 - **01 A burger**: görgetésre rétegeire szétnyíló burger, a rétegek rövid leírásával
-- **02 Étlap**: kiemelt Rusty Rack burger (fotóval), mellette kategóriánkénti árlista
-- **03 Képek**: galéria hat fotóval (egy nagy, négy kicsi, egy széles)
-- **04 Rendezvények**: alkalmak (céges rendezvény, születésnap, csapatépítő, ballagás, kerti parti, családi összejövetel),
+- **02 Étlap**: kiemelt Rusty Rack burger, mellette kategóriánkénti árlista, minden étel mellett kis fotóval
+- **03 Rendezvények**: alkalmak (céges rendezvény, születésnap, csapatépítő, ballagás, kerti parti, családi összejövetel),
   három ajánlat (kitelepülés, BBQ tálak/catering, egyedi ajánlat), és ajánlatkérés hívással vagy Messengeren
-- **05 Videók**: élő előnézet – a Facebook- és TikTok-videók hang nélkül, ismétlődve mennek, amíg látszanak (a többi áll),
+- **04 Videók**: élő előnézet – a Facebook- és TikTok-videók hang nélkül, ismétlődve mennek, amíg látszanak (a többi áll),
   mindegyiken hang be/ki gomb. Az előnézetek az oldal betöltése után azonnal elindulnak. Ha előbb engedélyt szeretnél kérni
   a látogatótól (a Facebook és a TikTok sütiket használhat): `SHOP.askVideoConsent = true` a `script.js` elején.
   **Csak feltöltött weboldalon (https://…) működnek**, helyi fájlként megnyitva az oldal ezt ki is írja.
   Asztali gépen minden látható videó megy; telefonon egyszerre csak a középen lévő TikTok-videó, és csak akkor vált,
   amikor a lapozás megállt. A Facebook telefonon nem engedi a kódból indított lejátszást, ezért ott a Facebook-videók
   a saját előnézeti képüket mutatják, és koppintásra, hanggal indulnak
-- **06 Történet** (Gergő fotójával), **07 Rólunk írták**, **08 Rendelés** (telefon, Wolt, foodora), **09 Hol vagyunk**
+- **05 Történet**, **06 Rólunk írták**, **07 Rendelés** (telefon, Wolt, foodora), **08 Hol vagyunk**
   (a bejárat fotója, élő nyitva/zárva jelzés, nyitvatartás, térkép kattintásra)
 - Telefonon alul mindig ott a **Hívás**, **Útvonal** és **Rendelés** gomb
 - **Telefonra optimalizálva** (320 px-től, álló és fekvő helyzetben is): a címek a kijelző magasságához is igazodnak,
@@ -96,15 +95,19 @@ magától a helyjelölő helyére kerül. Ami nincs feltöltve, ott a helyjelöl
 | Fájl | Hol látszik | Mi legyen rajta |
 | --- | --- | --- |
 | `hero.jpg` | nyitókép, jobb oldal (álló, kb. 4:5) | a Rusty Rack burger közelről |
-| `rusty-rack-burger.jpg` | étlap, kiemelt kártya (4:3) | a ház burgere tányéron |
-| `galeria-1.jpg` | képek, nagy kocka | smashed burger közelről, kettévágva |
-| `galeria-2.jpg` … `galeria-5.jpg` | képek, kis csempék | platni sütés közben, oldalas, pulled pork, sajtszószos krumpli |
-| `galeria-6.jpg` | képek, széles sáv (fekvő) | a hely belülről |
+| `etel-rusty-rack.jpg` | étlap, kis négyzet (1:1) | Rusty Rack burger |
+| `etel-husimado.jpg` | étlap, kis négyzet | Húsimádó |
+| `etel-tovabbi-burgerek.jpg` | étlap, kis négyzet | a többi smashed burger |
+| `etel-pulled-pork.jpg` | étlap, kis négyzet | pulled pork szendvics |
+| `etel-oldalas.jpg` | étlap, kis négyzet | oldalas |
+| `etel-quesadilla.jpg` | étlap, kis négyzet | quesadilla |
+| `etel-sajtszoszos-krumpli.jpg` | étlap, kis négyzet | sajtszószos krumpli |
+| `etel-hasabburgonya.jpg` | étlap, kis négyzet | hasábburgonya |
+| `etel-coleslaw.jpg` | étlap, kis négyzet | coleslaw |
 | `rendezveny.jpg` | rendezvények (3:2) | egy korábbi rendezvény vagy kitelepülés |
-| `gergo.jpg` | történet (4:3) | Katona Gergő a platni mögött |
 | `bejarat.jpg` | hol vagyunk (16:9) | a bejárat kívülről |
 
-A képek kitöltik a helyüket (szélükből levághat), ezért a téma legyen középen. Elég 1600 px széles, jól tömörített JPG.
+A képek kitöltik a helyüket (szélükből levághat), ezért a téma legyen középen. Elég 1600 px széles, jól tömörített JPG (az étlap kis képeihez 300 px is bőven elég).
 A kép leírása (amit a vakok felolvasóprogramja mond) a `figure` `data-alt` mezőjében van.
 
 ## Helyi megtekintés
