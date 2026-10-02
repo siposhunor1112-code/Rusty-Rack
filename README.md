@@ -17,7 +17,7 @@ Nincs szükség build lépésre: a `public/` mappa bármilyen statikus tárhelye
 
 - Letisztult, sötét stílus: szén háttér, csont színű szöveg, egyetlen kiemelőszín (parázs-narancs) – `public/styles.css`, `:root`
 - Két betűtípus saját tárhelyről: Anton (címek) és Space Grotesk (szöveg) – `public/assets/fonts/`, SIL Open Font License
-- A burger rajza kódból készül (SVG, `#burger-art` az `index.html` alján) – a „01 A burger” szekcióban és az étlap kiemelt kártyáján látszik
+- A burger rajza kódból készül (SVG, `#burger-art` az `index.html` alján) – a „02 A burger” szekcióban és az étlap kiemelt kártyáján látszik
 - A fotók helyén addig helyjelölő látszik, amíg a képet fel nem töltöd (lásd lent: „Fotók”)
 - Mozgás csak mértékkel: a nyitókép szövege finoman beúszik, fölötte halk parázs száll (csak amíg a nyitókép látszik),
   a szekciók görgetésre jelennek meg
@@ -27,8 +27,9 @@ Nincs szükség build lépésre: a `public/` mappa bármilyen statikus tárhelye
 - **Nyitókép**: „Smashed. Smoked. Békásmegyer.”, rövid bemutatás, Rendelés és Étlap gomb, alatta „Rendezvényeket is vállalunk”
   link, jobbra nagy fotó, alul cím, nyitvatartás és telefon.
   A háttérben elhalványított, hangtalan, ismétlődő videó mehet (lásd lent: „Háttérvideó”)
-- **01 A burger**: görgetésre rétegeire szétnyíló burger, a rétegek rövid leírásával
-- **02 Étlap**: kiemelt Rusty Rack burger, mellette kategóriánkénti árlista, minden étel mellett kis fotóval
+- **01 Étlap**: kiemelt Rusty Rack burger, mellette kategóriánkénti árlista, minden étel mellett kis fotóval
+  (telefonon a név és az ár egy sorban, alatta a leírás)
+- **02 A burger**: görgetésre rétegeire szétnyíló burger, a rétegek rövid leírásával
 - **03 Rendezvények**: alkalmak (céges rendezvény, születésnap, csapatépítő, ballagás, kerti parti, családi összejövetel),
   három ajánlat (kitelepülés, BBQ tálak/catering, egyedi ajánlat), és ajánlatkérés hívással vagy Messengeren
 - **04 Videók**: élő előnézet – a Facebook- és TikTok-videók hang nélkül, ismétlődve mennek, amíg látszanak (a többi áll),

@@ -442,8 +442,19 @@ button { font: inherit; color: inherit; }
   .reel__nav { display: none; }
   .videos__gate .btn { width: 100%; }
   .menu__layout { grid-template-columns: 1fr; }
-  .feature { position: static; padding: 28px; }
+  .feature { position: static; padding: 24px; }
+  .feature__art { width: min(70%, 300px); margin-bottom: 12px; }
+  .feature h3 { font-size: clamp(36px, 11vw, 52px); }
+  .feature .feature__price { margin-top: 14px; font-size: 26px; }
   .item strong { font-size: 20px; }
+  /* Étlapsor telefonon: kép | név + ár, alatta a leírás teljes szélességben */
+  .menu__group li { display: grid; grid-template-columns: 64px minmax(0, 1fr) auto; grid-template-rows: 1fr auto auto 1fr; gap: 0 14px; padding: 14px 0; }
+  .menu__group .item { display: contents; }
+  .menu__group .photo--thumb { grid-column: 1; grid-row: 1 / -1; width: 64px; align-self: center; }
+  .menu__group .item strong { grid-column: 2; grid-row: 2; }
+  .menu__group .price { grid-column: 3; grid-row: 2; align-self: baseline; }
+  .menu__group .item small { grid-column: 2 / -1; grid-row: 3; }
+  .menu__group + .menu__group { margin-top: 36px; }
 
   .story__grid, .visit { grid-template-columns: 1fr; }
   .events__top, .events__ask { grid-template-columns: 1fr; }
@@ -468,8 +479,9 @@ button { font: inherit; color: inherit; }
 
 @media (max-width: 420px) {
   .nav .status [data-status-text] { display: inline-block; max-width: 150px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; vertical-align: middle; }
-  .menu__group li { gap: 14px; }
-  .photo--thumb { width: 60px; }
+  .menu__group li { grid-template-columns: 56px minmax(0, 1fr) auto; gap: 0 12px; }
+  .menu__group .photo--thumb { width: 56px; }
+  .item strong { font-size: 18px; }
 }
 
 @media (max-width: 350px) {
